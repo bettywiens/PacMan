@@ -1,5 +1,4 @@
-class NormalImage implements ImageContainer {
-  
+class NormalImage implements ImageContainer{
   PImage image;
   
   NormalImage(String path){
