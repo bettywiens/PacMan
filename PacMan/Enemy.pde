@@ -36,10 +36,10 @@ class Enemy extends Creature{
         return;
       }
     } else {
-      grid_x += move_x;
-      pixel_x = convertToPixel(grid_x);
-      grid_y += move_y;
-      pixel_y = convertToPixel(grid_y);
+      //grid_x += move_x;
+      //pixel_x = convertToPixel(grid_x);
+      //grid_y += move_y;
+      //pixel_y = convertToPixel(grid_y);
       return;
     }
   }

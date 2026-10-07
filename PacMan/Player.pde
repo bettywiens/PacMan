@@ -1,6 +1,7 @@
 class Player extends Creature {
   AnimationImage image_right;
   AnimationImage image_left;
+  int counter = 0;
 
   Player(float grid_x, float grid_y, float speed) {
     super(WorldTypes.PLAYER, grid_x, grid_y, speed);
@@ -15,41 +16,55 @@ class Player extends Creature {
 
     float move_x = 0;
     float move_y = 0;
-
+    
+  
+  
     if (direction.equals(CreatureDirections.UP)) {
-      move_y = -0.1;
+      counter++;
+      println(counter);
+      if (counter % 2 == 0) {
+        move_y = -0.125;
+      }         
     } else if (direction.equals(CreatureDirections.DOWN)) {
-
-      move_y = 0.1;
+      counter++;
+      if (counter % 2 == 0) {
+        move_y = 0.125;
+      }
     } else if (direction.equals(CreatureDirections.LEFT)) {
-      move_x = -0.1;
+      counter++;
+      if (counter % 2 == 0) {
+        move_x = -0.125;
+      }
     } else if (direction.equals(CreatureDirections.RIGHT)) {
-      move_x = 0.1;
+      counter++;
+      if (counter % 2 == 0) {
+        move_x = 0.125;
+      }
     } else if (direction.equals(CreatureDirections.STOP)) {
       move_x = 0;
       move_y = 0;
+      //counter = 0;
     }
+
 
     CollisionResult collision_result = checkCollision(move_x, move_y);
     if (collision_result != null) {
       if (collision_result.type.equals(WorldTypes.WALL_BRICK)) {
         return;
       } else if (collision_result.type.equals(WorldTypes.COIN)) {
+        // Wenn wir mit einer Münze kollidieren, wird diese entfernt vom Spielfeld
         world_objects.remove(collision_result.id);
         return;
       }
     } else {
-      while (Math.abs(move_x) <=1 ) {
-        grid_x += move_x;
-        pixel_x = convertToPixel(grid_x);
-      }
-      while (Math.abs(move_y) <=1 ) {
-        grid_x += move_y;
-        pixel_y = convertToPixel(grid_y);
-      }
+      grid_x += move_x;    
+      pixel_x = convertToPixel(grid_x);
+      grid_y += move_y;
+      pixel_y = convertToPixel(grid_y);
       return;
     }
   }
+
 
   @Override
     void update() {
