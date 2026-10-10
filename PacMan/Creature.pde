@@ -16,11 +16,12 @@ class Creature extends WorldObject {
 
   void move() {
     float gap = 2.3f;
-    
-    if(wish_direction != null && !wish_direction.equals(direction)){
-      float grid_gap_x = Math.abs((pixel_x % TILE_SIZE) - TILE_SIZE / 2);
+  
+    // überprüft ob neue Richtung angefragt wurde und ob diese unterschiedlich zur jetzigen Richtung ist
+    if (wish_direction != null && !wish_direction.equals(direction)) {
+      float grid_gap_x = Math.abs((pixel_x % TILE_SIZE) - TILE_SIZE / 2); // berechnet wie weit Charakter vom Zentrum der jeweiligen Tile ist
       float grid_gap_y = Math.abs((pixel_y % TILE_SIZE) - TILE_SIZE / 2);
-      if(grid_gap_x <= gap && grid_gap_y <= gap){
+      if (grid_gap_x <= gap && grid_gap_y <= gap) {
         direction = wish_direction;
       }
     }
@@ -29,20 +30,17 @@ class Creature extends WorldObject {
   CollisionResult checkCollision(float move_x, float move_y) {
 
     float collision_size = TILE_SIZE;
-    fill(255,0,0);
-   //rect(pixel_x, pixel_y, collision_size, collision_size);
+    fill(255, 0, 0);
+    //rect(pixel_x, pixel_y, collision_size, collision_size);
 
     // Neue Position in Pixel:
-    float new_pixel_position_x = pixel_x + move_x;
-    float new_pixel_position_y = pixel_y + move_y;
-    
-    // Neue grid position:
-    //float new_grid_position_x = grid_x
+    float new_pixel_position_x = convertToPixel(grid_x + move_x);
+    float new_pixel_position_y = convertToPixel(grid_y + move_y);     
 
     // Iterieren durch die world_objects (Alle Elemente auf dem Spielfeld):
     for (int i = 0; i < world_objects.size(); i++) {
       WorldObject collision_object = world_objects.get(i);
-      
+
       // Wenn das objekt nicht sich selbst ist?
       if (!collision_object.getType().equals(getType())) {
         float object_pixel_x = collision_object.getPixelX();
@@ -57,8 +55,8 @@ class Creature extends WorldObject {
           result.object = collision_object;
           result.type = collision_object.getType();
           result.id = i;
-          
-          if(collision_filter == null || !collision_filter.contains(result.type)){
+
+          if (collision_filter == null || !collision_filter.contains(result.type)) {
             return  result;
           }
         }
@@ -70,8 +68,8 @@ class Creature extends WorldObject {
 
   void update() {
   }
-  
-  void setCollisionFilter(ArrayList<WorldTypes> collision_filter){
+
+  void setCollisionFilter(ArrayList<WorldTypes> collision_filter) {
     this.collision_filter = collision_filter;
   }
 }

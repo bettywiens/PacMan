@@ -1,3 +1,4 @@
+
 int SCALE = 2;
 int TILE_SIZE = 16 * SCALE;
 float PLAYER_SPEED = 0.7f * SCALE;

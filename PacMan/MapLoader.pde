@@ -4,7 +4,7 @@ class MapLoader {
   char character;
   
   MapLoader(ArrayList<WorldObject> world_objects) {
-    lines = loadStrings("C:/Users/bwiens/Documents/GitHub/PacMan/PacMan/data/map/map2.txt");
+    lines = loadStrings("data/map/map2.txt");
 
     for (int i = 0; i < lines.length; i++) {
       characters = lines[i].toCharArray();

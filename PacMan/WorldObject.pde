@@ -21,7 +21,7 @@ class WorldObject{
   void drawObject(){
     image_container.drawImage(pixel_x, pixel_y);
   }
-  
+        
   float convertToPixel(float position){
     return position * TILE_SIZE + (TILE_SIZE / 2);
   }
