@@ -1,5 +1,5 @@
 
-int SCALE = 2;
+int SCALE = 3;
 int TILE_SIZE = 16 * SCALE;
 float PLAYER_SPEED = 0.7f * SCALE;
 float ENEMY_SPEED = 0.6f * SCALE;
@@ -9,16 +9,17 @@ int window_height;
 
 
 
-
+MapLoader map_loader;
 KeyHandler key_handler;
 ArrayList<WorldObject> world_objects;
 
 void setup() {
   size(480, 600);
   world_objects = new ArrayList<WorldObject>();
-  MapLoader map = new MapLoader(world_objects);
-  window_height = map.lines.length * TILE_SIZE;
-  window_width = map.characters.length * TILE_SIZE;
+  map_loader = new MapLoader(world_objects);
+  
+  window_height = map_loader.lines.length * TILE_SIZE;
+  window_width = map_loader.characters.length * TILE_SIZE;
   windowResize(window_width, window_height);
   imageMode(CENTER);
   rectMode(CENTER);

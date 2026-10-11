@@ -17,28 +17,28 @@ class Player extends Creature {
     float move_x = 0;
     float move_y = 0;
     
-  
+    float step = 0.125f;
   
     if (direction.equals(CreatureDirections.UP)) {
       counter++;
-      println(counter);
+      //println(counter);
       if (counter % 2 == 0) {
-        move_y = -0.125;
+        move_y = -step;
       }         
     } else if (direction.equals(CreatureDirections.DOWN)) {
       counter++;
       if (counter % 2 == 0) {
-        move_y = 0.125;
+        move_y = step;
       }
     } else if (direction.equals(CreatureDirections.LEFT)) {
       counter++;
       if (counter % 2 == 0) {
-        move_x = -0.125;
+        move_x = -step;
       }
     } else if (direction.equals(CreatureDirections.RIGHT)) {
       counter++;
       if (counter % 2 == 0) {
-        move_x = 0.125;
+        move_x = step;
       }
     } else if (direction.equals(CreatureDirections.STOP)) {
       move_x = 0;
@@ -54,6 +54,9 @@ class Player extends Creature {
       } else if (collision_result.type.equals(WorldTypes.COIN)) {
         // Wenn wir mit einer Münze kollidieren, wird diese entfernt vom Spielfeld
         world_objects.remove(collision_result.id);
+        return;
+      } else if (collision_result.type.equals(WorldTypes.ENEMY)){
+        println("lost");
         return;
       }
     } else {
