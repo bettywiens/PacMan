@@ -4,14 +4,15 @@ class Enemy extends Creature {
   int counter = 0;
 
 
-  Enemy(float grid_x, float grid_y, float speed) {
+  Enemy(float grid_x, float grid_y, float speed, String colour) {
     super(WorldTypes.ENEMY, grid_x, grid_y, speed);
-    println("Enemy erstellt");
-    image_right = new AnimationImage("images/enemy/walk_right", 3, ANIMATION_SPEED);
-    image_left = new AnimationImage("images/enemy/walk_left", 3, ANIMATION_SPEED);
+
+    image_right = new AnimationImage("images/enemy/" + colour + "/walk_right", 3, ANIMATION_SPEED);
+    image_left = new AnimationImage("images/enemy/" + colour + "/walk_left", 3, ANIMATION_SPEED);
     setImageContainer(image_right);
     ArrayList<WorldTypes> collision_filter = new ArrayList<WorldTypes>();
     collision_filter.add(WorldTypes.COIN);
+    collision_filter.add(WorldTypes.POWER_UP);
     setCollisionFilter(collision_filter);
   }
 
@@ -51,6 +52,21 @@ class Enemy extends Creature {
       if (collision_result.type.equals(WorldTypes.WALL_BRICK)) {
         randomDirection();
         return;
+      } else if (collision_result.type.equals(WorldTypes.PLAYER)) {
+          //println("Kollisionstyp: " + collision_result.type);
+          collision_result = checkCollision(move_x, move_y);
+          if (collision_result.type.equals(WorldTypes.WALL_BRICK)){
+            randomDirection();
+            return;
+          } else {
+            
+            grid_x += move_x;
+            pixel_x = convertToPixel(grid_x);
+            grid_y += move_y;
+            pixel_y = convertToPixel(grid_y);
+            return;
+          }
+       
       }
     } else {
       grid_x += move_x;

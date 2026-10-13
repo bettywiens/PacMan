@@ -1,10 +1,20 @@
 class Wall extends WorldObject{
-  NormalImage image;
+  NormalImage image_wall;
+  NormalImage image_plant;
   
-  Wall(float grid_x, float grid_y){
+  Wall(float grid_x, float grid_y, String type){
     super(WorldTypes.WALL_BRICK, grid_x, grid_y);
-    image = new NormalImage("images/environment/wall_brick.png");
-    setImageContainer(image);
+    image_wall = new NormalImage("images/environment/wall_brick.png");
+    image_plant = new NormalImage("images/environment/wall_plant.png");
+    
+    switch (type) {
+      case "brick":
+        setImageContainer(image_wall);
+        break;
+      case "plant":
+        setImageContainer(image_plant);
+        break;
+    }
   }
   
 }
