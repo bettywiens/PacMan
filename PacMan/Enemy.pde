@@ -1,6 +1,8 @@
 class Enemy extends Creature {
   AnimationImage image_right;
   AnimationImage image_left;
+  AnimationImage scatter_left;
+  AnimationImage scatter_right;
   int counter = 0;
 
 
@@ -9,10 +11,15 @@ class Enemy extends Creature {
 
     image_right = new AnimationImage("images/enemy/" + colour + "/walk_right", 3, ANIMATION_SPEED);
     image_left = new AnimationImage("images/enemy/" + colour + "/walk_left", 3, ANIMATION_SPEED);
+
+    scatter_right = new AnimationImage("images/enemy/" + colour + "/scatter/walk_right", 3, ANIMATION_SPEED);
+    scatter_left = new AnimationImage("images/enemy/" + colour + "/scatter/walk_left", 3, ANIMATION_SPEED);
+
     setImageContainer(image_right);
     ArrayList<WorldTypes> collision_filter = new ArrayList<WorldTypes>();
     collision_filter.add(WorldTypes.COIN);
     collision_filter.add(WorldTypes.POWER_UP);
+    collision_filter.add(WorldTypes.PLAYER);
     setCollisionFilter(collision_filter);
   }
 
@@ -48,25 +55,11 @@ class Enemy extends Creature {
     }
 
     CollisionResult collision_result = checkCollision(move_x, move_y);
+    //CollisionResult new_collision_result = checkCollision(move_x + move_x, move_y + move_y);
     if (collision_result != null) {
       if (collision_result.type.equals(WorldTypes.WALL_BRICK)) {
         randomDirection();
         return;
-      } else if (collision_result.type.equals(WorldTypes.PLAYER)) {
-          //println("Kollisionstyp: " + collision_result.type);
-          collision_result = checkCollision(move_x, move_y);
-          if (collision_result.type.equals(WorldTypes.WALL_BRICK)){
-            randomDirection();
-            return;
-          } else {
-            
-            grid_x += move_x;
-            pixel_x = convertToPixel(grid_x);
-            grid_y += move_y;
-            pixel_y = convertToPixel(grid_y);
-            return;
-          }
-       
       }
     } else {
       grid_x += move_x;
@@ -77,15 +70,24 @@ class Enemy extends Creature {
     }
   }
 
+
   void randomDirection() {
     int direction_number = round(random(0, 3));
     CreatureDirections random_direction = CreatureDirections.values()[direction_number];
     changeDirection(random_direction);
 
     if (random_direction.equals(CreatureDirections.LEFT)) {
-      setImageContainer(image_left);
+      if (scatter_active) {
+        setImageContainer(scatter_left);
+      } else {
+        setImageContainer(image_left);
+      }
     } else if (random_direction.equals(CreatureDirections.RIGHT)) {
-      setImageContainer(image_right);
+      if (scatter_active) {
+        setImageContainer(scatter_right);
+      } else {
+        setImageContainer(image_right);
+      }
     }
   }
 }

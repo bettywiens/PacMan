@@ -3,10 +3,11 @@ class Player extends Creature {
   AnimationImage image_right_damage;
   AnimationImage image_left;
   AnimationImage image_left_damage;
-  NormalImage image_standing_right;
-  NormalImage image_standing_right_damage;
-  NormalImage image_standing_left;
-  NormalImage image_standing_left_damage;
+  AnimationImage image_won;
+  AnimationImage image_standing_right;
+  AnimationImage image_standing_right_damage;
+  AnimationImage image_standing_left;
+  AnimationImage image_standing_left_damage;
   NormalImage image_dead;
   boolean facing_right = false;
   boolean facing_left = false;
@@ -29,17 +30,26 @@ class Player extends Creature {
     super(WorldTypes.PLAYER, grid_x, grid_y, speed);
     player_x = grid_x;
     player_y = grid_y;
+
+    // normale Bilder
     image_right = new AnimationImage("images/player/walk_right", 3, ANIMATION_SPEED);
-    image_right_damage = new AnimationImage("images/damaged_player/walk_right", 3, ANIMATION_SPEED);
     image_left = new AnimationImage("images/player/walk_left", 3, ANIMATION_SPEED);
+    image_standing_right = new AnimationImage("images/player/standing/standing_right", 2, ANIMATION_STANDING_SPEED);
+    image_standing_left = new AnimationImage("images/player/standing/standing_left", 2, ANIMATION_STANDING_SPEED);
+
+    // Damage Bilder
+    image_right_damage = new AnimationImage("images/damaged_player/walk_right", 3, ANIMATION_SPEED);
     image_left_damage = new AnimationImage("images/damaged_player/walk_left", 3, ANIMATION_SPEED);
-    image_standing_right = new NormalImage("images/player/walk_right_1.png");
-    image_standing_right_damage = new NormalImage("images/damaged_player/walk_right_1.png");
-    image_standing_left = new NormalImage("images/player/walk_left_1.png");
-    image_standing_left_damage = new NormalImage("images/damaged_player/walk_left_1.png");
+    image_standing_right_damage = new AnimationImage("images/damaged_player/standing/standing_right", 2, ANIMATION_STANDING_SPEED);
+    image_standing_left_damage = new AnimationImage("images/damaged_player/standing/standing_left", 2, ANIMATION_STANDING_SPEED);
+
+    // Bilder bei Gewinn und Verlust
+    image_won = new AnimationImage("images/player/won", 2, ANIMATION_WON_SPEED);
+    image_dead = new NormalImage("images/player/dead.png");
+
     image_lost_heart = new NormalImage("images/hearts/lost_heart.png");
     image_heart = new NormalImage("images/hearts/heart.png");
-    image_dead = new NormalImage("images/player/dead.png");
+
     setImageContainer(image_standing_right);
   }
 
@@ -83,11 +93,26 @@ class Player extends Creature {
       move_y = 0;
 
       if (timer.isFinished()) {
-        println("is finished");
+        //println("is finished");
         time_counter++;
         timer.start();
         if (time_counter == 2) {
           game_lost = true;
+        }
+      }
+    }
+    if (score >= coins.size()) {
+      //println("score equals coins");
+      player_won = true;
+      move_x = 0;
+      move_y = 0;
+
+      if (timer.isFinished()) {
+        time_counter++;
+        timer.start();
+        if (time_counter == 2) {
+          //println("time is up");
+          game_won = true;
         }
       }
     }
@@ -103,13 +128,14 @@ class Player extends Creature {
         world_objects.remove(collision_result.id);
         // Pro Münze bekommt man einen Punkt
         score++;
-        Score object = new Score(1,2); // temporäres Objekt
+        println(coins.size());
+        Score object = new Score(1, 2); // temporäres Objekt
         object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
         return;
         // Wenn der player mit einem Gegner kollidiert, nimmt er Schaden und verliert ein Leben
       } else if (collision_result.type.equals(WorldTypes.POWER_UP)) {
         world_objects.remove(collision_result.id);
-        if (lives < 3){
+        if (lives < 3) {
           lives++;
           live_position--;
           println("live position: " + live_position);
@@ -118,25 +144,33 @@ class Player extends Creature {
         }
         println("Lives: " + lives);
         return;
-      } else if (collision_result.type.equals(WorldTypes.ENEMY)) {
-        player_damaged = true;
-        if (live_counter == 1) { // Stellt sicher, dass man pro Schaden nur ein Leben verliert
-          lives--;
-          println("Lives: " + lives);
-          if (live_position < hearts.length) {
-            affected_heart = hearts[live_position]; // Position an der sich das jetzige Leben befindet
-            affected_heart.setImageContainer(image_lost_heart);
-            live_position++;
+      } else if (collision_result.type.equals(WorldTypes.ENEMY) && !player_won) {
+        if (!scatter_active) {
+          player_damaged = true;
+          if (live_counter == 1) { // Stellt sicher, dass man pro Schaden nur ein Leben verliert
+            lives--;
+            println("Lives: " + lives);
+            if (live_position < hearts.length) {
+              affected_heart = hearts[live_position]; // Position an der sich das jetzige Leben befindet
+              affected_heart.setImageContainer(image_lost_heart);
+              live_position++;
+            }
           }
+        } else {
+          println("caught enemy");
         }
 
         live_counter++;
         // Der Gegner hält einen nicht auf
-        grid_x += move_x;
-        pixel_x = convertToPixel(grid_x);
-        grid_y += move_y;
-        pixel_y = convertToPixel(grid_y);
-        return;
+        if (!collideWithWall(grid_x + move_x, grid_y+move_y)) {
+          grid_x += move_x;
+          pixel_x = convertToPixel(grid_x);
+          grid_y += move_y;
+          pixel_y = convertToPixel(grid_y);
+          return;
+        } else {
+          return;
+        }
       }
     } else {
       // Sobald der Schaden vorbei ist, kann man wieder ein Leben verlieren
@@ -184,7 +218,7 @@ class Player extends Creature {
 
   // Setzt Bild, wenn der Player steht, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
   void setImageStop() {
-    if (player_damaged && !player_dead) {
+    if (player_damaged && !player_dead && !player_won) {
       if (facing_left) {
         setImageContainer(image_standing_left_damage);
       } else {
@@ -192,6 +226,8 @@ class Player extends Creature {
       }
     } else if (player_dead) {
       setImageContainer(image_dead);
+    } else if (player_won) {
+      setImageContainer(image_won);
     } else {
       if (facing_left) {
         setImageContainer(image_standing_left);
@@ -203,7 +239,7 @@ class Player extends Creature {
 
   // Setzt Bild, wenn der Player geht, abhängig davon, wie er sich bewegt und ob er Schaden nimmt
   void setImage() {
-    if (player_damaged && !player_dead) {
+    if (player_damaged && !player_dead && !player_won) {
       if (facing_right) {
         setImageContainer(image_right_damage);
       } else {
@@ -211,6 +247,8 @@ class Player extends Creature {
       }
     } else if (player_dead) {
       setImageContainer(image_dead);
+    } else if (player_won) {
+      setImageContainer(image_won);
     } else {
       if (facing_right) {
         setImageContainer(image_right);
@@ -223,5 +261,21 @@ class Player extends Creature {
   void update_player() {
     player_x = grid_x;
     player_y = grid_y;
+  }
+
+  boolean collideWithWall(float player_x, float player_y) {
+    int counter = 0;
+    for (WorldObject wall : walls) {
+      if (wall.grid_x != player_x || wall.grid_y != player_y) {
+        counter++;
+      } else {
+        counter += 0;
+      }
+    }
+    if (counter == walls.size()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

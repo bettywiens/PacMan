@@ -32,6 +32,7 @@ class MapLoader {
           index++;
         } else if (character == '.') {
           world_objects.add(0, new Coin(j, i));
+          coins.add(new Coin(j, i));
           index++;
         } else if (character == '+') {
           world_objects.add(new PowerUP(j, i));
@@ -56,8 +57,7 @@ class MapLoader {
         } else if (character == '0') {
           world_objects.add(new Score(j, i));
           numbers[number_counter] = world_objects.get(index);
-          number_counter++;
-          println("Number added " + number_counter);
+          number_counter++;          
           index++;
         }
       }
