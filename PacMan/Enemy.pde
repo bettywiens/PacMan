@@ -6,8 +6,8 @@ class Enemy extends Creature {
   int counter = 0;
 
 
-  Enemy(float grid_x, float grid_y, float speed, String colour) {
-    super(WorldTypes.ENEMY, grid_x, grid_y, speed);
+  Enemy(float grid_x, float grid_y, float speed, String colour, boolean is_walkable) {
+    super(WorldTypes.ENEMY, grid_x, grid_y, speed, is_walkable);
 
     image_right = new AnimationImage("images/enemy/" + colour + "/walk_right", 3, ANIMATION_SPEED);
     image_left = new AnimationImage("images/enemy/" + colour + "/walk_left", 3, ANIMATION_SPEED);
@@ -29,7 +29,7 @@ class Enemy extends Creature {
 
     float move_x = 0;
     float move_y = 0;
-    float step = 0.125f;
+    float step = 0.03125f;
 
     if (direction.equals(CreatureDirections.UP)) {
       counter++;

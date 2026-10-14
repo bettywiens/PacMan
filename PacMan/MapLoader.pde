@@ -24,40 +24,43 @@ class MapLoader {
         character = characters[j];
 
         if (character == 'P') {
-          world_objects.add(new Player(j, i, PLAYER_SPEED));
+          world_objects.add(new Player(j, i, PLAYER_SPEED, true));
           index++;
         } else if (character == '#') {
-          world_objects.add(new Wall(j, i, "brick"));
-          walls.add(new Wall(j, i, "brick"));
+          world_objects.add(new Wall(j, i, "brick", false));
+          walls.add(new Wall(j, i, "brick", false));
           index++;
         } else if (character == '.') {
-          world_objects.add(0, new Coin(j, i));
-          coins.add(new Coin(j, i));
+          world_objects.add(0, new Coin(j, i, true));
+          coins.add(new Coin(j, i, true));
           index++;
         } else if (character == '+') {
-          world_objects.add(new PowerUP(j, i));
+          world_objects.add(new PowerUP(j, i, true));
           index++;
         } else if (character == 'p') {
-          world_objects.add(new Enemy(j, i, ENEMY_SPEED, "pink"));
+          world_objects.add(new Enemy1(j, i, ENEMY_SPEED, true));
           index++;
         } else if (character == 'b') {
-          world_objects.add(new Enemy(j, i, ENEMY_SPEED, "blue"));
+          world_objects.add(new Enemy(j, i, ENEMY_SPEED, "blue", true));
           index++;
         } else if (character == 'g') {
-          world_objects.add(new Enemy(j, i, ENEMY_SPEED, "green"));
+          world_objects.add(new Enemy(j, i, ENEMY_SPEED, "green", true));
           index++;
         } else if (character == '*') {
-          world_objects.add(new Wall(j, i, "plant"));
+          world_objects.add(new Wall(j, i, "plant", false));
           index++;
         } else if (character == '3') {
-          world_objects.add(new Heart(j, i, "heart"));
+          world_objects.add(new Heart(j, i, "heart", false));
           hearts[heart_counter] = world_objects.get(index);
           heart_counter++;
           index++;
         } else if (character == '0') {
-          world_objects.add(new Score(j, i));
+          world_objects.add(new Score(j, i, false));
           numbers[number_counter] = world_objects.get(index);
           number_counter++;          
+          index++;
+        } else if (character == '_') {
+          world_objects.add(new Path(j,i, true));
           index++;
         }
       }

@@ -3,15 +3,17 @@ class WorldObject{
   float pixel_y;
   float grid_x;
   float grid_y;
+  boolean is_walkable;
   WorldTypes type;
   ImageContainer image_container;
   
-  WorldObject(WorldTypes type, float grid_x, float grid_y){
+  WorldObject(WorldTypes type, float grid_x, float grid_y, boolean is_walkable){
     this.type = type;
     this.grid_x = grid_x;
     this.grid_y = grid_y;
     this.pixel_x = convertToPixel(grid_x);
     this.pixel_y = convertToPixel(grid_y);
+    this.is_walkable = is_walkable;
   }
   
   void setImageContainer(ImageContainer container){

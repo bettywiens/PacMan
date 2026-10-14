@@ -26,8 +26,8 @@ class Player extends Creature {
   NormalImage image_lost_heart;
   NormalImage image_heart;
 
-  Player(float grid_x, float grid_y, float speed) {
-    super(WorldTypes.PLAYER, grid_x, grid_y, speed);
+  Player(float grid_x, float grid_y, float speed, boolean is_walkable) {
+    super(WorldTypes.PLAYER, grid_x, grid_y, speed, is_walkable);
     player_x = grid_x;
     player_y = grid_y;
 
@@ -129,7 +129,7 @@ class Player extends Creature {
         // Pro Münze bekommt man einen Punkt
         score++;
         println(coins.size());
-        Score object = new Score(1, 2); // temporäres Objekt
+        Score object = new Score(1, 2, false); // temporäres Objekt
         object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
         return;
         // Wenn der player mit einem Gegner kollidiert, nimmt er Schaden und verliert ein Leben
@@ -162,15 +162,12 @@ class Player extends Creature {
 
         live_counter++;
         // Der Gegner hält einen nicht auf
-        if (!collideWithWall(grid_x + move_x, grid_y+move_y)) {
-          grid_x += move_x;
-          pixel_x = convertToPixel(grid_x);
-          grid_y += move_y;
-          pixel_y = convertToPixel(grid_y);
-          return;
-        } else {
-          return;
-        }
+
+        grid_x += move_x;
+        pixel_x = convertToPixel(grid_x);
+        grid_y += move_y;
+        pixel_y = convertToPixel(grid_y);
+        return;
       }
     } else {
       // Sobald der Schaden vorbei ist, kann man wieder ein Leben verlieren
@@ -273,6 +270,7 @@ class Player extends Creature {
       }
     }
     if (counter == walls.size()) {
+      println("ist wahr");
       return true;
     } else {
       return false;

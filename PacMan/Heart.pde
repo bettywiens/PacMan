@@ -2,8 +2,8 @@ class Heart extends WorldObject {
   NormalImage image_heart;
   NormalImage image_lost_heart;
 
-  Heart(float grid_x, float grid_y, String type) {
-    super(WorldTypes.HEART, grid_x, grid_y);
+  Heart(float grid_x, float grid_y, String type, boolean is_walkable) {
+    super(WorldTypes.HEART, grid_x, grid_y, is_walkable);
     image_heart = new NormalImage("images/hearts/heart.png");
     image_lost_heart = new NormalImage("images/hearts/lost_heart.png");
 

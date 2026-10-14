@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 WorldObject[] hearts;
 WorldObject[] numbers;
 float player_x;

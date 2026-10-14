@@ -6,8 +6,8 @@ class Score extends WorldObject {
   String image_path;
   String pointsS;
 
-  Score(float grid_x, float grid_y) {
-    super(WorldTypes.SCORE, grid_x, grid_y);
+  Score(float grid_x, float grid_y, boolean is_walkable) {
+    super(WorldTypes.SCORE, grid_x, grid_y, is_walkable);
     zero = new NormalImage("images/numbers/0.png");
     image_path = "images/numbers/";
     setImageContainer(zero);
