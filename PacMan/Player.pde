@@ -1,13 +1,19 @@
 class Player extends Creature {
   AnimationImage image_right;
-  AnimationImage image_right_damage;
   AnimationImage image_left;
+  AnimationImage image_right_damage;
   AnimationImage image_left_damage;
-  AnimationImage image_won;
+  AnimationImage image_right_scatter;
+  AnimationImage image_left_scatter;
+
   AnimationImage image_standing_right;
-  AnimationImage image_standing_right_damage;
   AnimationImage image_standing_left;
+  AnimationImage image_standing_right_damage;
   AnimationImage image_standing_left_damage;
+  AnimationImage image_standing_right_scatter;
+  AnimationImage image_standing_left_scatter;
+
+  AnimationImage image_won;
   NormalImage image_dead;
   boolean facing_right = false;
   boolean facing_left = false;
@@ -37,8 +43,13 @@ class Player extends Creature {
     // normale Bilder
     image_right = new AnimationImage("images/player/walk_right", 3, ANIMATION_SPEED);
     image_left = new AnimationImage("images/player/walk_left", 3, ANIMATION_SPEED);
+    image_right_scatter = new AnimationImage("images/player/scatter/walk_right", 3, ANIMATION_SPEED);
+    image_left_scatter = new AnimationImage("images/player/scatter/walk_left", 3, ANIMATION_SPEED);
+    // standing:
     image_standing_right = new AnimationImage("images/player/standing/standing_right", 2, ANIMATION_STANDING_SPEED);
     image_standing_left = new AnimationImage("images/player/standing/standing_left", 2, ANIMATION_STANDING_SPEED);
+    image_standing_right_scatter = new AnimationImage("images/player/scatter/standing/standing_right", 2, ANIMATION_STANDING_SPEED);
+    image_standing_left_scatter = new AnimationImage("images/player/scatter/standing/standing_left", 2, ANIMATION_STANDING_SPEED);
 
     // Damage Bilder
     image_right_damage = new AnimationImage("images/damaged_player/walk_right", 3, ANIMATION_SPEED);
@@ -132,7 +143,7 @@ class Player extends Creature {
         amount_coins--;
         // Pro Münze bekommt man einen Punkt
         score++;
-        println(coins.size());
+        //println(coins.size());
         Score object = new Score(1, 2, false); // temporäres Objekt
         object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
         return;
@@ -142,11 +153,11 @@ class Player extends Creature {
         if (lives < 3) {
           lives++;
           live_position--;
-          println("live position: " + live_position);
+          //println("live position: " + live_position);
           affected_heart = hearts[live_position];
           affected_heart.setImageContainer(image_heart);
         }
-        println("Lives: " + lives);
+        //println("Lives: " + lives);
         return;
       } else if (collision_result.type.equals(WorldTypes.ENEMY) && !player_won) {
         if (!scatter_active) {
@@ -162,15 +173,14 @@ class Player extends Creature {
             }
           }
         } else {
-          println("caught enemy");
+          //println("caught enemy");
           if (!collided_with_enemy) {
-            println("ADDED TO SCORE");
+            //println("ADDED TO SCORE");
             score += 5;
             Score object = new Score(1, 2, false); // temporäres Objekt
             object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
             collided_with_enemy = true;
           }
-          
         }
         enemy_counter++;
         live_counter++;
@@ -226,7 +236,7 @@ class Player extends Creature {
     }
   }
 
-  // Setzt Bild, wenn der Player steht, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
+  // Setzt Bild, wenn der Player STEHT, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
   void setImageStop() {
     if (player_damaged && !player_dead && !player_won) {
       if (facing_left) {
@@ -240,14 +250,22 @@ class Player extends Creature {
       setImageContainer(image_won);
     } else {
       if (facing_left) {
-        setImageContainer(image_standing_left);
+        if (scatter_active) {
+          setImageContainer(image_standing_left_scatter);
+        } else {
+          setImageContainer(image_standing_left);
+        }
       } else if (facing_right) {
-        setImageContainer(image_standing_right);
+        if (scatter_active) {
+          setImageContainer(image_standing_right_scatter);
+        } else {
+          setImageContainer(image_standing_right);
+        }
       }
     }
   }
 
-  // Setzt Bild, wenn der Player geht, abhängig davon, wie er sich bewegt und ob er Schaden nimmt
+  // Setzt Bild, wenn der Player GEHT, abhängig davon, wie er sich bewegt und ob er Schaden nimmt
   void setImage() {
     if (player_damaged && !player_dead && !player_won) {
       if (facing_right) {
@@ -261,9 +279,17 @@ class Player extends Creature {
       setImageContainer(image_won);
     } else {
       if (facing_right) {
-        setImageContainer(image_right);
+        if (scatter_active) {
+          setImageContainer(image_right_scatter);
+        } else {
+          setImageContainer(image_right);
+        }
       } else if (facing_left) {
-        setImageContainer(image_left);
+        if (scatter_active) {
+          setImageContainer(image_left_scatter);
+        } else {
+          setImageContainer(image_left);
+        }
       }
     }
   }
@@ -283,7 +309,7 @@ class Player extends Creature {
       }
     }
     if (counter == walls.size()) {
-      println("ist wahr");
+      //println("ist wahr");
       return true;
     } else {
       return false;

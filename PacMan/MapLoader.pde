@@ -45,7 +45,7 @@ class MapLoader {
           world_objects.add(new Enemy(j, i, ENEMY_SPEED, "blue", true));
           index++;
         } else if (character == 'g') {
-          world_objects.add(new EnemyGruen(j, i, ENEMY_SPEED, true));
+          world_objects.add(new Enemy(j, i, ENEMY_SPEED,"green", true));
           index++;
         } else if (character == '*') {
           world_objects.add(new Wall(j, i, "plant", false));
