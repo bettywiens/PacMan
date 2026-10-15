@@ -4,6 +4,14 @@ WorldObject[] hearts;
 WorldObject[] numbers;
 float player_x;
 float player_y;
+float corner_up_right_x;
+float corner_up_right_y;
+float corner_up_left_x;
+float corner_up_left_y;
+float corner_down_right_x;
+float corner_down_right_y;
+float corner_down_left_x;
+float corner_down_left_y;
 int SCALE = 3;
 int TILE_SIZE = 16 * SCALE;
 float PLAYER_SPEED = 0.7f * SCALE;
@@ -17,6 +25,7 @@ int window_width;
 int window_height;
 int lives = 3;
 int score = 0;
+int amount_coins = 0;
 int scatter_timer_counter = 0;
 
 PImage background;
@@ -43,9 +52,9 @@ void setup() {
   timer.start();
   scatter_timer.start();
   world_objects = new ArrayList<WorldObject>();
-  coins = new ArrayList<WorldObject>();
+  coins = new ArrayList<WorldObject>();  
   map_loader = new MapLoader(world_objects);
-
+  println("Amount coins: " + amount_coins);
   window_height = map_loader.lines.length * TILE_SIZE;
   window_width = map_loader.characters.length * TILE_SIZE;
   windowResize(window_width, window_height);

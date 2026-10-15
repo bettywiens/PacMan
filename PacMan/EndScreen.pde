@@ -2,6 +2,8 @@ class EndScreen {
   PImage background;
   PImage game_over;
   PImage you_won;
+  float you_won_width;
+  float you_won_height;
   
   EndScreen() {
     background = loadImage("images/environment/brickwall.png");

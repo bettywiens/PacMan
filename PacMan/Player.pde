@@ -12,12 +12,15 @@ class Player extends Creature {
   boolean facing_right = false;
   boolean facing_left = false;
   boolean player_damaged = false;
+  boolean collided_with_enemy = false;
+
 
   int counter = 0;
   int time_counter = 0;
   int apple_counter = 0;
   int live_position = 0;
   int live_counter = 0;
+  int enemy_counter = 0;
   float diffzeit = 0;
   float zeit = 0;
   float animationszeit = 3000f;
@@ -101,7 +104,7 @@ class Player extends Creature {
         }
       }
     }
-    if (score >= coins.size()) {
+    if (amount_coins == 0) {
       //println("score equals coins");
       player_won = true;
       move_x = 0;
@@ -126,6 +129,7 @@ class Player extends Creature {
       } else if (collision_result.type.equals(WorldTypes.COIN)) {
         // Wenn wir mit einer Münze kollidieren, wird diese entfernt vom Spielfeld
         world_objects.remove(collision_result.id);
+        amount_coins--;
         // Pro Münze bekommt man einen Punkt
         score++;
         println(coins.size());
@@ -146,6 +150,7 @@ class Player extends Creature {
         return;
       } else if (collision_result.type.equals(WorldTypes.ENEMY) && !player_won) {
         if (!scatter_active) {
+          collided_with_enemy = false;
           player_damaged = true;
           if (live_counter == 1) { // Stellt sicher, dass man pro Schaden nur ein Leben verliert
             lives--;
@@ -158,8 +163,16 @@ class Player extends Creature {
           }
         } else {
           println("caught enemy");
+          if (!collided_with_enemy) {
+            println("ADDED TO SCORE");
+            score += 5;
+            Score object = new Score(1, 2, false); // temporäres Objekt
+            object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
+            collided_with_enemy = true;
+          }
+          
         }
-
+        enemy_counter++;
         live_counter++;
         // Der Gegner hält einen nicht auf
 
