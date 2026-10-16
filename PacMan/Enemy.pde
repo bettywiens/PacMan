@@ -145,146 +145,146 @@ class Enemy extends Creature
         float object_y = myObject.grid_y;
 
         // Wenn die WAND RECHTS ist:
-        if (object_x > position_x) 
+        if (object_x > position_x)
         {
           before_x_wall = last_x_wall;
           last_x_wall = CreatureDirections.RIGHT;
           println("!!!WAND RECHTS!!!");
           println("LAST X WALL || " + last_x_wall);
           println("LAST Y WALL || " + last_y_wall);
-          if (last_direction == CreatureDirections.RIGHT) 
+          if (last_direction == CreatureDirections.RIGHT)
           {
-            if (before_direction == CreatureDirections.RIGHT) 
+            if (before_direction == CreatureDirections.RIGHT)
             {
               before_direction = CreatureDirections.RIGHT;
-              if (last_y_wall == CreatureDirections.DOWN) 
+              if (last_y_wall == CreatureDirections.DOWN)
               {
                 goUp();
-              } else if (last_y_wall == CreatureDirections.UP) 
+              } else if (last_y_wall == CreatureDirections.UP)
               {
                 goDown();
               }
-            } else if (before_direction == CreatureDirections.LEFT) 
+            } else if (before_direction == CreatureDirections.LEFT)
             {
               before_direction = CreatureDirections.RIGHT;
-              if (before_x_wall == CreatureDirections.LEFT) 
+              if (before_x_wall == CreatureDirections.LEFT)
               {
-                if (last_y_wall == CreatureDirections.DOWN) 
+                if (last_y_wall == CreatureDirections.DOWN)
                 {
                   goDown();
-                } else if (last_y_wall == CreatureDirections.UP) 
+                } else if (last_y_wall == CreatureDirections.UP)
                 {
                   goDown();
                 }
               }
-            } else 
+            } else
             {
               before_direction = CreatureDirections.RIGHT;
               goUp();
             }
-          } else if (last_direction == CreatureDirections.LEFT) 
+          } else if (last_direction == CreatureDirections.LEFT)
           {
-            if (before_direction == CreatureDirections.UP) 
+            if (before_direction == CreatureDirections.UP)
             {
               before_direction = CreatureDirections.LEFT;
               goLeft();
-            } else 
+            } else
             {
               before_direction = CreatureDirections.LEFT;
               goUp();
             }
-          } else 
+          } else
           {
             before_direction = last_direction;
             goLeft();
           }
           // Wenn die WAND LINKS ist:
-        } else if (object_x < position_x) 
+        } else if (object_x < position_x)
         {
           before_x_wall = last_x_wall;
           last_x_wall = CreatureDirections.LEFT;
-          
+
           println("!!!WAND LINKS!!!");
           println("LAST X WALL || " + last_x_wall);
           println("LAST Y WALL || " + last_y_wall);
-          
-          if (last_direction == CreatureDirections.LEFT) 
+
+          if (last_direction == CreatureDirections.LEFT)
           {
-            if (before_direction == CreatureDirections.LEFT) 
+            if (before_direction == CreatureDirections.LEFT)
             {
               before_direction = CreatureDirections.LEFT;
-              if (last_y_wall == CreatureDirections.DOWN) 
+              if (last_y_wall == CreatureDirections.DOWN)
               {
                 goUp();
-              } else if (last_y_wall == CreatureDirections.UP) 
+              } else if (last_y_wall == CreatureDirections.UP)
               {
                 goDown();
               }
-            } else 
+            } else
             {
               before_direction = CreatureDirections.LEFT;
               goUp();
             }
-          } else if (last_direction == CreatureDirections.RIGHT) 
+          } else if (last_direction == CreatureDirections.RIGHT)
           {
-            if (before_direction == CreatureDirections.UP) 
+            if (before_direction == CreatureDirections.UP)
             {
               before_direction = CreatureDirections.RIGHT;
               goRight();
-            } else 
+            } else
             {
               before_direction = CreatureDirections.RIGHT;
               goUp();
             }
-          } else 
+          } else
           {
             before_direction = last_direction;
             goRight();
           }
           // Wenn die WAND UNTEN ist:
-        } else if (object_y > position_y) 
+        } else if (object_y > position_y)
         {
           before_y_wall = last_y_wall;
           last_y_wall = CreatureDirections.DOWN;
-          
+
           println("!!!WAND UNTEN!!!");
           println("LAST X WALL || " + last_x_wall);
           println("LAST Y WALL || " + last_y_wall);
-          
-          if (last_direction == CreatureDirections.DOWN) 
+
+          if (last_direction == CreatureDirections.DOWN)
           {
             before_direction = CreatureDirections.DOWN;
-            if (last_x_wall == CreatureDirections.LEFT) 
+            if (last_x_wall == CreatureDirections.LEFT)
             {
               goRight();
-            } else if (last_x_wall == CreatureDirections.RIGHT) 
+            } else if (last_x_wall == CreatureDirections.RIGHT)
             {
               goLeft();
             }
-          } else if (last_direction == CreatureDirections.RIGHT) 
+          } else if (last_direction == CreatureDirections.RIGHT)
           {
-            if (before_direction == CreatureDirections.RIGHT) 
+            if (before_direction == CreatureDirections.RIGHT)
             {
               before_direction = CreatureDirections.RIGHT;
               goUp();
             }
-          } else 
+          } else
           {
             before_direction = last_direction;
           }
           // Wenn die WAND OBEN ist:
-        } else if (object_y < position_y) 
+        } else if (object_y < position_y)
         {
           before_y_wall = last_y_wall;
           last_y_wall = CreatureDirections.UP;
-          
+
           println("!!!WAND OBEN!!!");
           println("LAST X WALL || " + last_x_wall);
           println("LAST Y WALL || " + last_y_wall);
-          
-          if (last_direction == CreatureDirections.UP) 
+
+          if (last_direction == CreatureDirections.UP)
           {
-            if (before_direction == CreatureDirections.RIGHT) 
+            if (before_direction == CreatureDirections.RIGHT)
             {
               before_direction = CreatureDirections.UP;
               goRight();
@@ -308,43 +308,56 @@ class Enemy extends Creature
               }
               //
               goRight();
-            } else if (before_direction == CreatureDirections.UP) {
+            } else if (before_direction == CreatureDirections.UP)
+            {
               // Hier muss noch unterschieden werden ob es eine rechte oder linke ecke ist
               before_direction = CreatureDirections.UP;
-              if (last_x_wall == CreatureDirections.LEFT) {
+              if (last_x_wall == CreatureDirections.LEFT)
+              {
                 goRight(); // oben links Ecke
-              } else if (last_x_wall == CreatureDirections.RIGHT) {
+              } else if (last_x_wall == CreatureDirections.RIGHT)
+              {
                 goLeft(); // oben rechts Ecke
               }
-            } else {
+            } else
+            {
               before_direction = CreatureDirections.UP;
               goLeft();
             }
-          } else if (last_direction == CreatureDirections.LEFT) {
-            if (before_direction == CreatureDirections.UP) {
+          } else if (last_direction == CreatureDirections.LEFT)
+          {
+            if (before_direction == CreatureDirections.UP)
+            {
               before_direction = CreatureDirections.LEFT;
               goLeft();
-            } else {
+            } else
+            {
               before_direction = last_direction;
               goRight();
             }
-          } else if (last_direction == CreatureDirections.RIGHT) {
-            if (before_direction == CreatureDirections.UP) {
+          } else if (last_direction == CreatureDirections.RIGHT)
+          {
+            if (before_direction == CreatureDirections.UP)
+            {
               before_direction = CreatureDirections.RIGHT;
               goLeft();
-            } else if (before_direction == CreatureDirections.LEFT) {
+            } else if (before_direction == CreatureDirections.LEFT)
+            {
               before_direction = CreatureDirections.RIGHT;
               goRight();
-            } else {
+            } else
+            {
               before_direction = last_direction;
               goRight();
             }
-          } else {
+          } else
+          {
             before_direction = last_direction;
           }
         }
       }
-    } else {
+    } else
+    {
       grid_x += move_x;
       pixel_x = convertToPixel(grid_x);
       grid_y += move_y;
@@ -354,6 +367,7 @@ class Enemy extends Creature
     }
   }
 
+  // Findet neue Position abhängig von der Bewegungsrichtung und der Kollisionswand
   float[] findNewPosition(float wall_x, float wall_y, CreatureDirections move_direction, CreatureDirections wall_position)
   {
     if (move_direction == CreatureDirections.UP)
@@ -361,15 +375,12 @@ class Enemy extends Creature
       if (wall_position == CreatureDirections.UP)
       {
         // wall_x bleibt unverändert da wir nach oben müssen
-
         wall_y++;
-
         while (!checkIfWalkable(wall_x, wall_y))
         {
           // wall_y wird erhöht, bis es ein betretbares Feld ist
           wall_y++;
         }
-
         float[] newPosition = { wall_x, wall_y};
         return newPosition;
       }
@@ -378,6 +389,7 @@ class Enemy extends Creature
     return array;
   }
 
+  // Überpüft ob TILE an bestimmterstelle walkable ist (eig. überflüssig kann man auch direkt machen)
   boolean checkIfWalkable (float wall_x, float wall_y)
   {
     WorldObject object = map_loader.getWorldObject(wall_x, wall_y);
@@ -387,32 +399,42 @@ class Enemy extends Creature
   }
 
   // Wenn scattermode aktiv ist, geht Gegner in die obere linke Ecke
-  void chooseDirectionRandom() {
-    if (!scatter_active) {
+  void chooseDirectionRandom()
+  {
+    if (!scatter_active)
+    {
       return;
-    } else {
-      if (!colliding) {
+    } else
+    {
+      if (!colliding)
+      {
         searchX(corner_up_left_x, true);
         searchY(corner_up_left_y, true);
-      } else {
+      } else
+      {
         return;
       }
     }
   }
 
   // Sucht nach Ziel auf der x-Achse
-  void searchX(float person_x, boolean seeing) {
-    if (!on_same_level_x) {
+  void searchX(float person_x, boolean seeing) 
+  {
+    if (!on_same_level_x) 
+    {
       // Gegner ist links vom Ziel --> muss nach rechts
-      if (position_x < person_x) {
+      if (position_x < person_x) 
+      {
         changeDirection(CreatureDirections.RIGHT);
         last_direction = CreatureDirections.RIGHT;
         // Gegner ist rechts vom Ziel --> muss nach links
-      } else if (position_x > person_x) {
+      } else if (position_x > person_x) 
+      {
         changeDirection(CreatureDirections.LEFT);
         last_direction = CreatureDirections.LEFT;
         // Gegner ist entweder direkt über oder direkt unter Ziel
-      } else if (position_x == person_x) {
+      } else if (position_x == person_x) 
+      {
         // Gegner kann entweder durch Wände sehen oder nicht
         if (seeing) {
           on_same_level_x = true;
@@ -424,20 +446,26 @@ class Enemy extends Creature
   }
 
   // Sucht nach Ziel auf der y-Achse
-  void searchY(float person_y, boolean seeing) {
-    if (!on_same_level_y) {
+  void searchY(float person_y, boolean seeing) 
+  {
+    if (!on_same_level_y) 
+    {
       // Gegner ist über dem Ziel --> muss nach unten
-      if (position_y < person_y) {
+      if (position_y < person_y) 
+      {
         changeDirection(CreatureDirections.DOWN);
         last_direction = CreatureDirections.DOWN;
         // Gegner ist unter dem Ziel --> muss nach oben
-      } else if (position_y > person_y) {
+      } else if (position_y > person_y) 
+      {
         changeDirection(CreatureDirections.UP);
         last_direction = CreatureDirections.UP;
         // Gegner ist entweder direkt links oder rechts vom Ziel
-      } else if (position_y == person_y) {
+      } else if (position_y == person_y) 
+      {
         // Gegner kann entweder durch Wände sehen oder nicht
-        if (seeing) {
+        if (seeing) 
+        {
           on_same_level_x = false;
           on_same_level_y = true;
         }
@@ -447,31 +475,16 @@ class Enemy extends Creature
   }
 
   // Wählt eine zufällige Richtung aus
-  void randomDirection() {
+  void randomDirection() 
+  {
     int direction_number = round(random(0, 3));
     CreatureDirections random_direction = CreatureDirections.values()[direction_number];
     changeDirection(random_direction);
     last_direction = random_direction;
   }
 
-  // Setzt Bilder abhängig vom Zustand des Gegners
-  //void setImages(CreatureDirections direction) {
-  //  if (direction == CreatureDirections.RIGHT) {
-  //    if (scatter_active) {
-  //      setImageContainer(scatter_right);
-  //    } else {
-  //      setImageContainer(image_right);
-  //    }
-  //  } else {
-  //    if (scatter_active) {
-  //      setImageContainer(scatter_left);
-  //    } else {
-  //      setImageContainer(image_left);
-  //    }
-  //  }
-  //}
-
-  void goLeft() {
+  void goLeft() 
+  {
     //println("LEFT");
     changeDirection(CreatureDirections.LEFT);
     last_direction = CreatureDirections.LEFT;
@@ -480,7 +493,8 @@ class Enemy extends Creature
     return;
   }
 
-  void goRight() {
+  void goRight() 
+  {
     //println("RIGHT");
     changeDirection(CreatureDirections.RIGHT);
     last_direction = CreatureDirections.RIGHT;
@@ -489,7 +503,8 @@ class Enemy extends Creature
     return;
   }
 
-  void goUp() {
+  void goUp() 
+  {
     //println("UP");
     changeDirection(CreatureDirections.UP);
     last_direction = CreatureDirections.UP;
@@ -498,7 +513,8 @@ class Enemy extends Creature
     return;
   }
 
-  void goDown() {
+  void goDown() 
+  {
     //println("DOWN");
     changeDirection(CreatureDirections.DOWN);
     last_direction = CreatureDirections.DOWN;
@@ -508,53 +524,70 @@ class Enemy extends Creature
   }
 
   // Setzt das Bild abhängig von der Richtung und Scattermode:
-  void setImage() {
+  void setImage() 
+  {
     current = last_direction;
-    if (current.equals(CreatureDirections.RIGHT)) {
-      if (scatter_active) {
+    if (current.equals(CreatureDirections.RIGHT)) 
+    {
+      if (scatter_active) 
+      {
         setImageContainer(scatter_right);
-      } else {
+      } else 
+      {
         setImageContainer(image_right);
       }
-    } else if (current.equals(CreatureDirections.LEFT)) {
-      if (scatter_active) {
+    } else if (current.equals(CreatureDirections.LEFT)) 
+    {
+      if (scatter_active) 
+      {
         setImageContainer(scatter_left);
-      } else {
+      } else 
+      {
         setImageContainer(image_left);
       }
     }
   }
 
   // Sucht nach Spieler
-  void chooseDirection(boolean seeing, float corner_x, float corner_y) {
-    if (!scatter_active) {
-      if (!colliding) {
+  void chooseDirection(boolean seeing, float corner_x, float corner_y) 
+  {
+    if (!scatter_active) 
+    {
+      if (!colliding) 
+      {
         in_place = false;
         searchX(player_x, seeing); // Sucht nach X Position vom Ziel
         searchY(player_y, seeing); // Sucht nach Y Position vom Ziel
-      } else {
+      } else 
+      {
         return;
       }
-    } else {
-      if (!colliding) { // && !in_place
+    } else 
+    {
+      if (!colliding) // && !in_place
+      { 
         // Geht im Scattermode nach oben rechts
         //checkIfInCorner(grid_x, grid_y, corner_x, corner_y);
         searchX(corner_x, seeing);
         searchY(corner_y, seeing);
-      } else {
+      } else 
+      {
         return;
       }
     }
   }
 
-  void checkIfInCorner(float player_x, float player_y, float corner_x, float corner_y) {
-    if (player_x == corner_x && player_y == corner_y) {
+  void checkIfInCorner(float player_x, float player_y, float corner_x, float corner_y) 
+  {
+    if (player_x == corner_x && player_y == corner_y) 
+    {
       in_place = true;
     }
   }
 
   // Sagt auf welchem Tile wird uns befinden:
-  void getPosition() {
+  void getPosition() 
+  {
     position_x = grid_x - (grid_x % 1);
     position_y = grid_y - (grid_y % 1);
   }

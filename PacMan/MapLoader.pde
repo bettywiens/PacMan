@@ -1,4 +1,5 @@
-class MapLoader {
+class MapLoader 
+{
   String[] lines;
   char[] characters;
   char[][] tiles;
@@ -8,7 +9,8 @@ class MapLoader {
   int index = 0;
   WorldObject[][] map;
 
-  MapLoader(ArrayList<WorldObject> world_objects) {
+  MapLoader(ArrayList<WorldObject> world_objects) 
+  {
     lines = loadStrings("data/map/pacman_small.txt");
 
     // 2D-Array für map erstellen:
@@ -22,76 +24,92 @@ class MapLoader {
       tiles[i] = lines[i].toCharArray();
       characters = lines[i].toCharArray();
       map = new WorldObject[characters.length][lines.length];
-      for (int j = 0; j < characters.length; j++) {
+      for (int j = 0; j < characters.length; j++) 
+      {
         character = characters[j];
 
-        if (character == 'P') {
+        if (character == 'P') 
+        {
           world_objects.add(new Player(j, i, PLAYER_SPEED, true));
           map[j][i] = new Player(j, i, PLAYER_SPEED, true);
           index++;
-        } else if (character == '#') {
+        } else if (character == '#') 
+        {
           world_objects.add(new Wall(j, i, "brick", false));
           walls.add(new Wall(j, i, "brick", false));
           map[j][i] = new Wall(j, i, "brick", false);
           index++;
-        } else if (character == '.') {
+        } else if (character == '.') 
+        {
           world_objects.add(0, new Coin(j, i, true));
           coins.add(new Coin(j, i, true));
           map[j][i] = new Coin(j, i, true);
           amount_coins++;
           index++;
-        } else if (character == '+') {
+        } else if (character == '+') 
+        {
           world_objects.add(new PowerUP(j, i, true));
           map[j][i] = new PowerUP(j, i, true);
           index++;
-        } else if (character == 'p') {
+        } else if (character == 'p') 
+        {
           world_objects.add(new EnemyPink(j, i, ENEMY_SPEED, true));
           map[j][i] = new EnemyPink(j, i, ENEMY_SPEED, true);
           index++;
-        } else if (character == 'b') {
+        } else if (character == 'b') 
+        {
           world_objects.add(new Enemy(j, i, ENEMY_SPEED, "blue", true));
           map[j][i] = new Enemy(j, i, ENEMY_SPEED, "blue", true);
           index++;
-        } else if (character == 'g') {
+        } else if (character == 'g') 
+        {
           world_objects.add(new Enemy(j, i, ENEMY_SPEED,"green", true));
           map[j][i] = new Enemy(j, i, ENEMY_SPEED,"green", true);
           index++;
-        } else if (character == '*') {
+        } else if (character == '*') 
+        {
           world_objects.add(new Wall(j, i, "plant", false));
           map[j][i] = new Wall(j, i, "plant", false);
           index++;
-        } else if (character == 'H') {
+        } else if (character == 'H') 
+        {
           world_objects.add(new Heart(j, i, "heart", false));
           hearts[heart_counter] = world_objects.get(index);
           map[j][i] = new Heart(j, i, "heart", false);
           heart_counter++;
           index++;
-        } else if (character == '0') {
+        } else if (character == '0') 
+        {
           world_objects.add(new Score(j, i, false));
           numbers[number_counter] = world_objects.get(index);
           map[j][i] = new Score(j, i, false);
           number_counter++;
           index++;
-        } else if (character == '_') {
+        } else if (character == '_') 
+        {
           world_objects.add(new Path(j, i, true));
           map[j][i] = new Path(j, i, true);
           index++;
-        } else if (character == '1') {
+        } else if (character == '1') 
+        {
           corner_up_left_x = j;
           corner_up_left_y = i;
           map[j][i] = new Path(j, i, true);
           //index++;
-        } else if (character == '2') {
+        } else if (character == '2') 
+        {
           corner_up_right_x = j;
           corner_up_right_y = i;
           map[j][i] = new Path(j, i, true);
           //index++;
-        } else if (character == '3') {
+        } else if (character == '3') 
+        {
           corner_down_left_x = j;
           corner_down_left_y = i;
           map[j][i] = new Path(j, i, true);
           //index++;
-        } else if (character == '4') {
+        } else if (character == '4') 
+        {
           corner_down_right_x = j;
           corner_down_right_y = i;
           map[j][i] = new Path(j, i, true);
@@ -108,11 +126,14 @@ class MapLoader {
     return map[point_x][point_y];
   }
 
-  boolean isWall(int x, int y) {
-    if (y < 0 || y >= tiles.length) {
+  boolean isWall(int x, int y) 
+  {
+    if (y < 0 || y >= tiles.length) 
+    {
       return true;
     }
-    if ( x < 0 || x >= tiles[y].length) {
+    if ( x < 0 || x >= tiles[y].length) 
+    {
       return true;
     }
 

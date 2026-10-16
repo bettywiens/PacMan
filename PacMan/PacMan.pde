@@ -29,6 +29,7 @@ int window_width;
 int window_height;
 
 int lives = 3;
+int amount_lives = 3;
 int score = 0;
 int amount_coins = 0;
 int scatter_timer_counter = 0;
@@ -48,7 +49,8 @@ EndScreen end;
 MapLoader map_loader;
 KeyHandler key_handler;
 
-void setup() {
+void setup() 
+{
   size(480, 600);
   timer = new Timer(2000);
   scatter_timer = new Timer(20000);
@@ -68,15 +70,19 @@ void setup() {
   end = new EndScreen();
 }
 
-void draw() {  
-  if (!game_lost && !game_won) {
+void draw() 
+{  
+  if (!game_lost && !game_won) 
+  {
     background(187, 212, 121);
-    for (int i = 0; i < world_objects.size(); i++) {
+    for (int i = 0; i < world_objects.size(); i++) 
+    {
       WorldObject object = world_objects.get(i);
 
       object.drawObject();
 
-      if (object instanceof Creature) {
+      if (object instanceof Creature) 
+      {
         Creature creature = (Creature) object;
         creature.move();
         creature.update();
@@ -96,19 +102,24 @@ void draw() {
       //  }     
       //}
     }
-  } else {
-    if (player_dead) {
+  } else 
+  {
+    if (player_dead) 
+    {
       end.printGameOver();
-    } else if (game_won) {
+    } else if (game_won) 
+    {
       end.printYouWon();
     }
   }
 }
 
-void keyPressed() {
+void keyPressed() 
+{
   key_handler.pressed();
 }
 
-void keyReleased() {
+void keyReleased() 
+{
   key_handler.released();
 }

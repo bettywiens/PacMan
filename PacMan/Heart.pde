@@ -1,13 +1,16 @@
-class Heart extends WorldObject {
+class Heart extends WorldObject 
+{
   NormalImage image_heart;
   NormalImage image_lost_heart;
 
-  Heart(float grid_x, float grid_y, String type, boolean is_walkable) {
+  Heart(float grid_x, float grid_y, String type, boolean is_walkable) 
+  {
     super(WorldTypes.HEART, grid_x, grid_y, is_walkable);
     image_heart = new NormalImage("images/hearts/heart.png");
     image_lost_heart = new NormalImage("images/hearts/lost_heart.png");
 
-    switch (type) {
+    switch (type) 
+    {
     case "heart":
       setImageContainer(image_heart);
       break;
@@ -17,8 +20,10 @@ class Heart extends WorldObject {
     }
   }
 
-  void setImageContainerHeart(String type) {
-    switch (type) {
+  void setImageContainerHeart(String type) 
+  {
+    switch (type) 
+    {
     case "heart":
       setImageContainer(image_heart);
       break;

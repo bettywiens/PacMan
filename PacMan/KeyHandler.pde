@@ -1,4 +1,5 @@
-class KeyHandler{
+class KeyHandler
+{
   boolean up_pressed;
   boolean left_pressed;
   boolean right_pressed;
@@ -8,60 +9,79 @@ class KeyHandler{
   boolean s_pressed;
   boolean d_pressed;
   
-  KeyHandler(){
+  KeyHandler()
+  {
     up_pressed = false;
   }
   
-  void pressed(){
-    if(keyCode == UP){
+  void pressed()
+  {
+    if(keyCode == UP)
+    {
       up_pressed = true;
     }
-    if(keyCode == DOWN){
+    if(keyCode == DOWN)
+    {
       down_pressed = true;
     }
-    if(keyCode == LEFT){
+    if(keyCode == LEFT)
+    {
       left_pressed = true;
     }
-    if(keyCode == RIGHT){
+    if(keyCode == RIGHT)
+    {
       right_pressed = true;
     }
-    if(key == 'w'){
+    if(key == 'w')
+    {
       w_pressed = true;
     }
-    if(key == 's'){
+    if(key == 's')
+    {
       s_pressed = true;
     }
-    if(key == 'a'){
+    if(key == 'a')
+    {
       a_pressed = true;
     }
-    if(key == 'd'){
+    if(key == 'd')
+    {
       d_pressed = true;
     }
   }
   
-  void released(){
-    if(keyCode == UP){
+  void released()
+  {
+    if(keyCode == UP)
+    {
       up_pressed = false;
     }
-    if(keyCode == DOWN){
+    if(keyCode == DOWN)
+    {
       down_pressed = false;
     }
-    if(keyCode == LEFT){
+    if(keyCode == LEFT)
+    {
       left_pressed = false;
     }
-    if(keyCode == RIGHT){
+    if(keyCode == RIGHT)
+    {
       right_pressed = false;
     }
-    if(key == 'w'){
+    if(key == 'w')
+    {
       w_pressed = false;
     }
-    if(key == 's'){
+    if(key == 's')
+    {
       s_pressed = false;
     }
-    if(key == 'a'){
+    if(key == 'a')
+    {
       a_pressed = false;
     }
-    if(key == 'd'){
+    if(key == 'd')
+    {
       d_pressed = false;
     }
   }

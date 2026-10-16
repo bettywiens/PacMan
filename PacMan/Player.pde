@@ -1,4 +1,5 @@
-class Player extends Creature {
+class Player extends Creature 
+{
   AnimationImage image_right;
   AnimationImage image_left;
   AnimationImage image_right_damage;
@@ -15,13 +16,13 @@ class Player extends Creature {
 
   AnimationImage image_won;
   NormalImage image_dead;
+  
   boolean facing_right = false;
   boolean facing_left = false;
   boolean player_damaged = false;
   boolean collided_with_enemy = false;
   boolean standing = false;
-
-
+  
   int counter = 0;
   int time_counter = 0;
   int apple_counter = 0;
@@ -36,7 +37,8 @@ class Player extends Creature {
   NormalImage image_lost_heart;
   NormalImage image_heart;
 
-  Player(float grid_x, float grid_y, float speed, boolean is_walkable) {
+  Player(float grid_x, float grid_y, float speed, boolean is_walkable) 
+  {
     super(WorldTypes.PLAYER, grid_x, grid_y, speed, is_walkable);
     player_x = grid_x;
     player_y = grid_y;
@@ -69,7 +71,8 @@ class Player extends Creature {
   }
 
   @Override
-    void move() {
+    void move() 
+    {
     super.move();
 
     float move_x = 0;
@@ -77,55 +80,73 @@ class Player extends Creature {
 
     float step = 0.125f;
 
-    if (direction.equals(CreatureDirections.UP)) {
+    if (direction.equals(CreatureDirections.UP)) 
+    {
       counter++;
-      if (counter % 2 == 0) {
+      if (counter % 2 == 0) 
+      {
         move_y = -step;
       }
-    } else if (direction.equals(CreatureDirections.DOWN)) {
+    } else if (direction.equals(CreatureDirections.DOWN)) 
+    {
       counter++;
-      if (counter % 2 == 0) {
+      if (counter % 2 == 0) 
+      {
         move_y = step;
       }
-    } else if (direction.equals(CreatureDirections.LEFT)) {
+    } else if (direction.equals(CreatureDirections.LEFT)) 
+    {
       counter++;
-      if (counter % 2 == 0) {
+      if (counter % 2 == 0) 
+      {
         move_x = -step;
       }
-    } else if (direction.equals(CreatureDirections.RIGHT)) {
+    } else if (direction.equals(CreatureDirections.RIGHT)) 
+    {
       counter++;
-      if (counter % 2 == 0) {
+      if (counter % 2 == 0) 
+      {
         move_x = step;
       }
-    } else if (direction.equals(CreatureDirections.STOP)) {
+    } else if (direction.equals(CreatureDirections.STOP)) 
+    {
       move_x = 0;
       move_y = 0;
     }
 
-    if (lives < 1) {
+    // Wenn wir weniger als ein Leben haben, stirbt der Spieler
+    if (lives < 1) 
+    {
       player_dead = true;
       move_x = 0;
       move_y = 0;
 
-      if (timer.isFinished()) {
+      if (timer.isFinished()) 
+      {
         //println("is finished");
         time_counter++;
         timer.start();
-        if (time_counter == 2) {
+        if (time_counter == 2) 
+        {
           game_lost = true;
         }
       }
     }
-    if (amount_coins == 0) {
+    
+    // Wenn es keine Münzen mehr gibt, hat der Spieler gewonnen
+    if (amount_coins == 0) 
+    {
       //println("score equals coins");
       player_won = true;
       move_x = 0;
       move_y = 0;
 
-      if (timer.isFinished()) {
+      if (timer.isFinished()) 
+      {
         time_counter++;
         timer.start();
-        if (time_counter == 2) {
+        if (time_counter == 2) 
+        {
           //println("time is up");
           game_won = true;
         }
@@ -135,10 +156,15 @@ class Player extends Creature {
 
 
     CollisionResult collision_result = checkCollision(move_x, move_y);
-    if (collision_result != null) {
-      if (collision_result.type.equals(WorldTypes.WALL_BRICK)) {
+    
+    if (collision_result != null) 
+    {
+      // Wenn wir gegen eine Wand stoßen komm wir nicht weiter
+      if (collision_result.type.equals(WorldTypes.WALL_BRICK)) 
+      {
         return;
-      } else if (collision_result.type.equals(WorldTypes.COIN)) {
+      } else if (collision_result.type.equals(WorldTypes.COIN)) 
+      {
         // Wenn wir mit einer Münze kollidieren, wird diese entfernt vom Spielfeld
         world_objects.remove(collision_result.id);
         amount_coins--;
@@ -149,34 +175,39 @@ class Player extends Creature {
         object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
         return;
         // Wenn der player mit einem Gegner kollidiert, nimmt er Schaden und verliert ein Leben
-      } else if (collision_result.type.equals(WorldTypes.POWER_UP)) {
+      } else if (collision_result.type.equals(WorldTypes.POWER_UP)) 
+      {
         world_objects.remove(collision_result.id);
-        if (lives < 3) {
+        // Wenn der Spieler ein PowerUP einsammelt und man bereits ein Leben verloren hat, bekommt man ein Leben zurück
+        if (lives < amount_lives) 
+        {
           lives++;
-          live_position--;
-          //println("live position: " + live_position);
+          live_position--;         
           affected_heart = hearts[live_position];
           affected_heart.setImageContainer(image_heart);
-        }
-        //println("Lives: " + lives);
+        }       
         return;
-      } else if (collision_result.type.equals(WorldTypes.ENEMY) && !player_won) {
-        if (!scatter_active) {
+      } else if (collision_result.type.equals(WorldTypes.ENEMY) && !player_won) 
+      {
+        if (!scatter_active) 
+        {
           collided_with_enemy = false;
           player_damaged = true;
-          if (live_counter == 1) { // Stellt sicher, dass man pro Schaden nur ein Leben verliert
-            lives--;
-            println("Lives: " + lives);
-            if (live_position < hearts.length) {
+          if (live_counter == 1) // Stellt sicher, dass man pro Schaden nur ein Leben verliert 
+          { 
+            lives--;            
+            if (live_position < hearts.length) 
+            {
               affected_heart = hearts[live_position]; // Position an der sich das jetzige Leben befindet
               affected_heart.setImageContainer(image_lost_heart);
               live_position++;
             }
           }
-        } else {
-          //println("caught enemy");
-          if (!collided_with_enemy) {
-            //println("ADDED TO SCORE");
+        } else 
+        {          
+          if (!collided_with_enemy) 
+          {
+//??        // Soll 5 Punkte geben wenn man mit Enemy im scattermode zusammentrifft || Funktioniert momentan NICHT 
             score += 5;
             Score object = new Score(1, 2, false); // temporäres Objekt
             object.showPoints(numbers, score); // Bildet aktuellen Punktstand ab
@@ -185,139 +216,151 @@ class Player extends Creature {
         }
         enemy_counter++;
         live_counter++;
-        // Der Gegner hält einen nicht auf
-
+        
+//??    // Der Gegner hält einen nicht auf || Kollision bereitet noch Probleme, Spieler kann in die Wan glitchen
+        // Bewegung WÄHREND des Schadens
         grid_x += move_x;
         pixel_x = convertToPixel(grid_x);
         grid_y += move_y;
         pixel_y = convertToPixel(grid_y);
         return;
       }
-    } else {
+    } else 
+    {
       // Sobald der Schaden vorbei ist, kann man wieder ein Leben verlieren
       live_counter = 0;
       apple_counter = 0;
+      
       player_damaged = false;
+      
+      // Bewegung NACHDEM oder BEVOR Schaden genommen wurde
       grid_x += move_x;
       pixel_x = convertToPixel(grid_x);
       grid_y += move_y;
       pixel_y = convertToPixel(grid_y);
+      
       update_player();
       return;
     }
   }
 
+  
   @Override
-    void update() {
-    if (!player_dead) {
-      if (key_handler.up_pressed) {
+    void update() 
+    {
+    if (!player_dead) 
+    {
+      if (key_handler.up_pressed) 
+      {
         standing = false;
         changeDirection(CreatureDirections.UP);
         setImage();
-      } else if (key_handler.down_pressed) {
+      } else if (key_handler.down_pressed) 
+      {
         standing = false;
         changeDirection(CreatureDirections.DOWN);
         setImage();
-      } else if (key_handler.left_pressed) {
+      } else if (key_handler.left_pressed) 
+      {
         changeDirection(CreatureDirections.LEFT);
         standing = false;
         facing_left = true;
         facing_right = false;
         setImage();
-      } else if (key_handler.right_pressed) {
+      } else if (key_handler.right_pressed) 
+      {
         changeDirection(CreatureDirections.RIGHT);
         standing = false;
         facing_right = true;
         facing_left = false;
         setImage();
         // Man kann stehen bleiben (Animation passt sich dementsprechend an)
-      } else if (!key_handler.up_pressed) {
-        changeDirection(CreatureDirections.STOP);
-        //setImageStop();
+      } else if (!key_handler.up_pressed) 
+      {
+        changeDirection(CreatureDirections.STOP);        
         standing = true;
         setImage();
       }
-    } else {
-      setImage();
-      //setImageStop();
+    } else 
+    {
+      setImage();      
     }
   }
 
-  //// Setzt Bild, wenn der Player STEHT, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
-  //void setImageStop() {
-  //  if (player_damaged && !player_dead && !player_won) {
-  //    if (facing_left) {
-  //      setImageContainer(image_standing_left_damage);
-  //    } else {
-  //      setImageContainer(image_standing_right_damage);
-  //    }
-  //  } else if (player_dead) {
-  //    setImageContainer(image_dead);
-  //  } else if (player_won) {
-  //    setImageContainer(image_won);
-  //  } else {
-  //    if (facing_left) {
-  //      if (scatter_active) {
-  //        setImageContainer(image_standing_left_scatter);
-  //      } else {
-  //        setImageContainer(image_standing_left);
-  //      }
-  //    } else if (facing_right) {
-  //      if (scatter_active) {
-  //        setImageContainer(image_standing_right_scatter);
-  //      } else {
-  //        setImageContainer(image_standing_right);
-  //      }
-  //    }
-  //  }
-  //}
-
   // Setzt Bild, wenn der Player GEHT, abhängig davon, wie er sich bewegt und ob er Schaden nimmt
-  void setImage() {
-    if (player_damaged && !player_dead && !player_won) {
-      if (facing_right) {
-        if (standing) {
+  void setImage() 
+  {
+    // Wenn Spieler SCHADEN nimmt und das Spiel noch läuft
+    if (player_damaged && !player_dead && !player_won) 
+    {
+      if (facing_right) 
+      {
+        if (standing)
+        {
           setImageContainer(image_standing_right_damage);
-        } else {
+        } else 
+        {
           setImageContainer(image_right_damage);
         }
-      } else if (facing_left) {
-        if (standing) {
+      } else if (facing_left) 
+      {
+        if (standing) 
+        {
           setImageContainer(image_standing_left_damage);
-        } else {
+        } else 
+        {
           setImageContainer(image_left_damage);
         }
       }
-    } else if (player_dead) {
+      // Wenn Spieler gestorben ist
+    } else if (player_dead) 
+    {
       setImageContainer(image_dead);
-    } else if (player_won) {
+      // Wenn Spieler gewonnen hat
+    } else if (player_won) 
+    {
       setImageContainer(image_won);
+      // DEFAULT Darstellung des Spielers mit scattermode
     } else {
-      if (facing_right) {
-        if (scatter_active) {
-          if (standing) {
+      if (facing_right) 
+      {
+        if (scatter_active) 
+        {
+          if (standing) 
+          {
             setImageContainer(image_standing_right_scatter);
-          } else {
+          } else 
+          {
             setImageContainer(image_right_scatter);
           }
-        } else {
-          if (standing) {
+        } else 
+        {
+          if (standing) 
+          {
             setImageContainer(image_standing_right);
-          } else {
+          } else 
+          {
             setImageContainer(image_right);
           }
         }
-      } else if (facing_left) {
-        if (scatter_active) {
-          if (standing) {
+      } else if (facing_left) 
+      {
+        if (scatter_active) 
+        {
+          if (standing) 
+          {
             setImageContainer(image_standing_left_scatter);
-          } else {
+          } else 
+          {
             setImageContainer(image_left_scatter);
           }
-        } else {
-          if (standing) {
+        } else 
+        {
+          if (standing) 
+          {
             setImageContainer(image_standing_left);
-          } else {
+          } else 
+          {
             setImageContainer(image_left);
           }
         }
@@ -325,11 +368,13 @@ class Player extends Creature {
     }
   }
 
+  // Aktualisiert player Koordinaten
   void update_player() {
     player_x = grid_x;
     player_y = grid_y;
   }
 
+//??  // Soll wiedergeben, ob Spieler mit Wand kollidiert || Funktioniert momentan nicht
   boolean collideWithWall(float player_x, float player_y) {
     int counter = 0;
     for (WorldObject wall : walls) {

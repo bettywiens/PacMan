@@ -1,23 +1,29 @@
-class Timer {
+class Timer 
+{
   int savedTime;
   int totalTime;
   
-  Timer(int tempTotalTime) {
+  Timer(int tempTotalTime) 
+  {
     totalTime = tempTotalTime;
   }
   
-  // starten des Timers
-  void start() {
+  // Starten des Timers
+  void start() 
+  {
     // Wenn der Timer gestartet wird, wird die jetzige Zeit in millisekunden gespeichert
     savedTime = millis();
   }
   
-  boolean isFinished() {
+  boolean isFinished() 
+  {
     // Überprüfen wie viel Zeit vergangen ist
     int passedTime = millis() - savedTime;
-    if (passedTime > totalTime) {
+    if (passedTime > totalTime) 
+    {
       return true;
-    } else {
+    } else 
+    {
       return false;
     }
   }

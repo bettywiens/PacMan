@@ -1,12 +1,15 @@
-class Score extends WorldObject {
+class Score extends WorldObject 
+{
   NormalImage zero;
   NormalImage point_image_0;
   NormalImage point_image_1;
   NormalImage point_image_2;
+  
   String image_path;
   String pointsS;
 
-  Score(float grid_x, float grid_y, boolean is_walkable) {
+  Score(float grid_x, float grid_y, boolean is_walkable) 
+  {
     super(WorldTypes.SCORE, grid_x, grid_y, is_walkable);
     zero = new NormalImage("images/numbers/0.png");
     image_path = "images/numbers/";
@@ -14,21 +17,25 @@ class Score extends WorldObject {
   }
 
 
-  void showPoints(WorldObject[] pointPositions, int points) {
+  void showPoints(WorldObject[] pointPositions, int points) 
+  {
     // Punktzahl in char-Array umwandeln
     pointsS = String.valueOf(points);
     char[] pointsArray = pointsS.toCharArray();
     
     // Punkte werden an passender Stelle auf Spielfeld angezeigt
-    if (points < 10) {
+    if (points < 10) 
+    {
       point_image_0 = new NormalImage(image_path + points + ".png");
       point_image_1 = zero;
       point_image_2 = zero;
-    } else if (points >= 10 && points < 100) {
+    } else if (points >= 10 && points < 100) 
+    {
       point_image_0 = new NormalImage(image_path + pointsArray[1] + ".png");
       point_image_1 = new NormalImage(image_path + pointsArray[0] + ".png");
       point_image_2 = zero;
-    } else if (points >= 100) {
+    } else if (points >= 100) 
+    {
       point_image_0 = new NormalImage(image_path + pointsArray[2] + ".png");
       point_image_1 = new NormalImage(image_path + pointsArray[1] + ".png");
       point_image_2 = new NormalImage(image_path + pointsArray[0] + ".png");
