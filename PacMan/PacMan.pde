@@ -81,19 +81,19 @@ void draw() {
         creature.update();
       }
       
-      // scattermode gets actived every 20 seconds and last 20 seconds(for now);
-      if (scatter_timer.isFinished()) {
-        scatter_active = true;
-        //println("scatter is active.");
-        scatter_timer_counter++;
-        scatter_timer.start();
-        if (scatter_timer_counter == 2){
-          scatter_active = false;
-          //println("scatter is inactive.");
-          scatter_timer_counter = 0;
-        }
+     //scattermode gets actived every 20 seconds and last 20 seconds(for now);
+      //if (scatter_timer.isFinished()) {
+      //  scatter_active = true;
+      //  //println("scatter is active.");
+      //  scatter_timer_counter++;
+      //  scatter_timer.start();
+      //  if (scatter_timer_counter == 2){
+      //    scatter_active = false;
+      //    //println("scatter is inactive.");
+      //    scatter_timer_counter = 0;
+      //  }
       
-      }
+      //}
     }
   } else {
     if (player_dead) {

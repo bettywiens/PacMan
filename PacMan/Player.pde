@@ -19,6 +19,7 @@ class Player extends Creature {
   boolean facing_left = false;
   boolean player_damaged = false;
   boolean collided_with_enemy = false;
+  boolean standing = false;
 
 
   int counter = 0;
@@ -210,68 +211,82 @@ class Player extends Creature {
     void update() {
     if (!player_dead) {
       if (key_handler.up_pressed) {
+        standing = false;
         changeDirection(CreatureDirections.UP);
         setImage();
       } else if (key_handler.down_pressed) {
+        standing = false;
         changeDirection(CreatureDirections.DOWN);
         setImage();
       } else if (key_handler.left_pressed) {
         changeDirection(CreatureDirections.LEFT);
+        standing = false;
         facing_left = true;
         facing_right = false;
         setImage();
       } else if (key_handler.right_pressed) {
         changeDirection(CreatureDirections.RIGHT);
+        standing = false;
         facing_right = true;
         facing_left = false;
         setImage();
         // Man kann stehen bleiben (Animation passt sich dementsprechend an)
       } else if (!key_handler.up_pressed) {
         changeDirection(CreatureDirections.STOP);
-        setImageStop();
+        //setImageStop();
+        standing = true;
+        setImage();
       }
     } else {
       setImage();
-      setImageStop();
+      //setImageStop();
     }
   }
 
-  // Setzt Bild, wenn der Player STEHT, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
-  void setImageStop() {
-    if (player_damaged && !player_dead && !player_won) {
-      if (facing_left) {
-        setImageContainer(image_standing_left_damage);
-      } else {
-        setImageContainer(image_standing_right_damage);
-      }
-    } else if (player_dead) {
-      setImageContainer(image_dead);
-    } else if (player_won) {
-      setImageContainer(image_won);
-    } else {
-      if (facing_left) {
-        if (scatter_active) {
-          setImageContainer(image_standing_left_scatter);
-        } else {
-          setImageContainer(image_standing_left);
-        }
-      } else if (facing_right) {
-        if (scatter_active) {
-          setImageContainer(image_standing_right_scatter);
-        } else {
-          setImageContainer(image_standing_right);
-        }
-      }
-    }
-  }
+  //// Setzt Bild, wenn der Player STEHT, abhängig davon, wie in welche Richtung er sich bewegt und ob er Schaden nimmt
+  //void setImageStop() {
+  //  if (player_damaged && !player_dead && !player_won) {
+  //    if (facing_left) {
+  //      setImageContainer(image_standing_left_damage);
+  //    } else {
+  //      setImageContainer(image_standing_right_damage);
+  //    }
+  //  } else if (player_dead) {
+  //    setImageContainer(image_dead);
+  //  } else if (player_won) {
+  //    setImageContainer(image_won);
+  //  } else {
+  //    if (facing_left) {
+  //      if (scatter_active) {
+  //        setImageContainer(image_standing_left_scatter);
+  //      } else {
+  //        setImageContainer(image_standing_left);
+  //      }
+  //    } else if (facing_right) {
+  //      if (scatter_active) {
+  //        setImageContainer(image_standing_right_scatter);
+  //      } else {
+  //        setImageContainer(image_standing_right);
+  //      }
+  //    }
+  //  }
+  //}
 
   // Setzt Bild, wenn der Player GEHT, abhängig davon, wie er sich bewegt und ob er Schaden nimmt
   void setImage() {
     if (player_damaged && !player_dead && !player_won) {
       if (facing_right) {
-        setImageContainer(image_right_damage);
-      } else {
-        setImageContainer(image_left_damage);
+        if (standing) {
+          setImageContainer(image_standing_right_damage);
+        } else {
+          setImageContainer(image_right_damage);
+        }
+      } else if (facing_left) {
+        if (standing) {
+          setImageContainer(image_standing_left_damage);
+        } else {
+          setImageContainer(image_left_damage);
+        }
       }
     } else if (player_dead) {
       setImageContainer(image_dead);
@@ -280,15 +295,31 @@ class Player extends Creature {
     } else {
       if (facing_right) {
         if (scatter_active) {
-          setImageContainer(image_right_scatter);
+          if (standing) {
+            setImageContainer(image_standing_right_scatter);
+          } else {
+            setImageContainer(image_right_scatter);
+          }
         } else {
-          setImageContainer(image_right);
+          if (standing) {
+            setImageContainer(image_standing_right);
+          } else {
+            setImageContainer(image_right);
+          }
         }
       } else if (facing_left) {
         if (scatter_active) {
-          setImageContainer(image_left_scatter);
+          if (standing) {
+            setImageContainer(image_standing_left_scatter);
+          } else {
+            setImageContainer(image_left_scatter);
+          }
         } else {
-          setImageContainer(image_left);
+          if (standing) {
+            setImageContainer(image_standing_left);
+          } else {
+            setImageContainer(image_left);
+          }
         }
       }
     }

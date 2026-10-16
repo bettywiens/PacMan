@@ -15,8 +15,11 @@ class Score extends WorldObject {
 
 
   void showPoints(WorldObject[] pointPositions, int points) {
+    // Punktzahl in char-Array umwandeln
     pointsS = String.valueOf(points);
     char[] pointsArray = pointsS.toCharArray();
+    
+    // Punkte werden an passender Stelle auf Spielfeld angezeigt
     if (points < 10) {
       point_image_0 = new NormalImage(image_path + points + ".png");
       point_image_1 = zero;

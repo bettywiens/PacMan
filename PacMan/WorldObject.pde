@@ -23,11 +23,13 @@ class WorldObject{
   void drawObject(){
     image_container.drawImage(pixel_x, pixel_y);
   }
-        
+  
+  // Position auf der Grid-Koordinaten wird auf Pixel umgerechnet (für Zeichnen) 
   float convertToPixel(float position){
     return position * TILE_SIZE + (TILE_SIZE / 2);
   }
   
+  // Position wird von Pixel-Koordinaten auf Grid-Koordinaten umgerechnet
   int convertToGrid(float position){
     return Math.round((position - (TILE_SIZE / 2)) / TILE_SIZE);
   }

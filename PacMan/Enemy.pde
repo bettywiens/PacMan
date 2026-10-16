@@ -16,6 +16,8 @@ class Enemy extends Creature {
   CreatureDirections last_y_direction;
   CreatureDirections last_x_wall;
   CreatureDirections last_y_wall;
+  CreatureDirections before_x_wall;
+  CreatureDirections before_y_wall;
   boolean colliding = false;
 
 
@@ -28,6 +30,8 @@ class Enemy extends Creature {
     last_y_direction = CreatureDirections.DOWN;
     last_x_wall = CreatureDirections.RIGHT;
     last_y_wall = CreatureDirections.DOWN;
+    before_x_wall = CreatureDirections.RIGHT;
+    before_y_wall = CreatureDirections.DOWN;
 
     position_x = grid_x - (grid_x % 1);
     position_y = grid_y - (grid_y % 1);
@@ -118,6 +122,7 @@ class Enemy extends Creature {
         // Wenn die WAND RECHTS ist:
         if (object_x > position_x) {
           println("WAND RECHTS");
+          before_x_wall = last_x_wall;
           last_x_wall = CreatureDirections.RIGHT;
           if (last_direction == CreatureDirections.RIGHT) {
             if (before_direction == CreatureDirections.RIGHT) {
@@ -126,6 +131,15 @@ class Enemy extends Creature {
                 goUp();
               } else if (last_y_wall == CreatureDirections.UP) {
                 goDown();
+              }
+            } else if (before_direction == CreatureDirections.LEFT) {
+              before_direction = CreatureDirections.RIGHT;
+              if (before_x_wall == CreatureDirections.LEFT) {
+                if (last_y_wall == CreatureDirections.DOWN) {
+                  goDown();
+                } else if (last_y_wall == CreatureDirections.UP) {
+                  goDown();
+                }
               }
             } else {
               before_direction = CreatureDirections.RIGHT;
@@ -146,25 +160,28 @@ class Enemy extends Creature {
           // Wenn die WAND LINKS ist:
         } else if (object_x < position_x) {
           println("WAND LINKS");
+          before_x_wall = last_x_wall;
           last_x_wall = CreatureDirections.LEFT;
           if (last_direction == CreatureDirections.LEFT) {
             if (before_direction == CreatureDirections.LEFT) {
               before_direction = CreatureDirections.LEFT;
-              if (last_y_wall == CreatureDirections.UP) {
-                goDown();
-              } else if (last_y_wall == CreatureDirections.DOWN) {
+              if (last_y_wall == CreatureDirections.DOWN) {
                 goUp();
+              } else if (last_y_wall == CreatureDirections.UP) {
+                goDown();
               }
             } else {
               before_direction = CreatureDirections.LEFT;
-              goRight();
+              goUp();
             }
           } else if (last_direction == CreatureDirections.RIGHT) {
-            before_direction = CreatureDirections.RIGHT;
-            goUp();
-          } else if (last_direction == CreatureDirections.DOWN) {
-            before_direction = CreatureDirections.DOWN;
-            goDown();
+            if (before_direction == CreatureDirections.UP) {
+              before_direction = CreatureDirections.RIGHT;
+              goRight();
+            } else {
+              before_direction = CreatureDirections.RIGHT;
+              goUp();
+            }
           } else {
             before_direction = last_direction;
             goRight();
@@ -172,6 +189,7 @@ class Enemy extends Creature {
           // Wenn die WAND UNTEN ist:
         } else if (object_y > position_y) {
           println("WAND UNTEN");
+          before_y_wall = last_y_wall;
           last_y_wall = CreatureDirections.DOWN;
           if (last_direction == CreatureDirections.DOWN) {
             before_direction = CreatureDirections.DOWN;
@@ -191,6 +209,7 @@ class Enemy extends Creature {
           // Wenn die WAND OBEN ist:
         } else if (object_y < position_y) {
           println("WAND OBEN");
+          before_y_wall = last_y_wall;
           last_y_wall = CreatureDirections.UP;
           if (last_direction == CreatureDirections.UP) {
             if (before_direction == CreatureDirections.RIGHT) {
@@ -223,6 +242,9 @@ class Enemy extends Creature {
             if (before_direction == CreatureDirections.UP) {
               before_direction = CreatureDirections.RIGHT;
               goLeft();
+            } else if (before_direction == CreatureDirections.LEFT) {
+              before_direction = CreatureDirections.RIGHT;
+              goRight();
             } else {
               before_direction = last_direction;
               goRight();
