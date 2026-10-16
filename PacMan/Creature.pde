@@ -17,7 +17,7 @@ class Creature extends WorldObject {
   void move() {
     float gap = 2.3f;
 
-    // überprüft ob neue Richtung angefragt wurde und ob diese unterschiedlich zur jetzigen Richtung ist
+    // Überprüft ob neue Richtung angefragt wurde und ob diese unterschiedlich zur jetzigen Richtung ist
     if (wish_direction != null && !wish_direction.equals(direction)) {
       float grid_gap_x = Math.abs((pixel_x % TILE_SIZE) - TILE_SIZE / 2); // berechnet wie weit Charakter vom Zentrum der jeweiligen Tile ist
       float grid_gap_y = Math.abs((pixel_y % TILE_SIZE) - TILE_SIZE / 2);
@@ -27,7 +27,7 @@ class Creature extends WorldObject {
     }
   }
 
-  // überprüft ob PacMan in etwas reinläuft, returns a CollisionResult object
+  // Überprüft ob Creature in etwas reinläuft, returns a CollisionResult object
   // Collision? yes: CollisionResult, no: null
   CollisionResult checkCollision(float move_x, float move_y) {
 
@@ -54,14 +54,14 @@ class Creature extends WorldObject {
       //int collision_tile_y = (int)collision_object.grid_y;
       //println("Objekt y: " + collision_tile_y);
       //int[] collision_tile = {collision_tile_x, collision_tile_y};
-      
+
 
       // Überpüft ob das objekt nicht es selbst ist (mit dem Type nicht id (vielleicht später mit id))
       if (!collision_object.getType().equals(getType())) {
         // Wir holen uns die Position vom mit uns möglicherweise kollidierenden Objekt
         float object_pixel_x = collision_object.getPixelX();
         float object_pixel_y = collision_object.getPixelY();
-        
+
         //boolean same_position = Arrays.equals(collision_tile, position_tile);
         //// Vergleicht position von möglichen Kollisionsobjekten mit Figur
         //if (same_position) {
@@ -69,7 +69,7 @@ class Creature extends WorldObject {
         //  result.object = collision_object;
         //  result.type = collision_object.getType();
         //  result.id = i;
-          
+
 
         //  if (collision_filter == null || !collision_filter.contains(result.type)) {
         //    return  result;

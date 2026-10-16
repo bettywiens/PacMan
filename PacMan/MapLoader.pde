@@ -6,6 +6,7 @@ class MapLoader {
   int heart_counter = 0;
   int number_counter = 0;
   int index = 0;
+  WorldObject[][] map;
 
   MapLoader(ArrayList<WorldObject> world_objects) {
     lines = loadStrings("data/map/pacman_small.txt");
@@ -20,68 +21,91 @@ class MapLoader {
     for (int i = 0; i < lines.length; i++) {
       tiles[i] = lines[i].toCharArray();
       characters = lines[i].toCharArray();
+      map = new WorldObject[characters.length][lines.length];
       for (int j = 0; j < characters.length; j++) {
         character = characters[j];
 
         if (character == 'P') {
           world_objects.add(new Player(j, i, PLAYER_SPEED, true));
+          map[j][i] = new Player(j, i, PLAYER_SPEED, true);
           index++;
         } else if (character == '#') {
           world_objects.add(new Wall(j, i, "brick", false));
           walls.add(new Wall(j, i, "brick", false));
+          map[j][i] = new Wall(j, i, "brick", false);
           index++;
         } else if (character == '.') {
           world_objects.add(0, new Coin(j, i, true));
           coins.add(new Coin(j, i, true));
+          map[j][i] = new Coin(j, i, true);
           amount_coins++;
           index++;
         } else if (character == '+') {
           world_objects.add(new PowerUP(j, i, true));
+          map[j][i] = new PowerUP(j, i, true);
           index++;
         } else if (character == 'p') {
           world_objects.add(new EnemyPink(j, i, ENEMY_SPEED, true));
+          map[j][i] = new EnemyPink(j, i, ENEMY_SPEED, true);
           index++;
         } else if (character == 'b') {
           world_objects.add(new Enemy(j, i, ENEMY_SPEED, "blue", true));
+          map[j][i] = new Enemy(j, i, ENEMY_SPEED, "blue", true);
           index++;
         } else if (character == 'g') {
           world_objects.add(new Enemy(j, i, ENEMY_SPEED,"green", true));
+          map[j][i] = new Enemy(j, i, ENEMY_SPEED,"green", true);
           index++;
         } else if (character == '*') {
           world_objects.add(new Wall(j, i, "plant", false));
+          map[j][i] = new Wall(j, i, "plant", false);
           index++;
         } else if (character == 'H') {
           world_objects.add(new Heart(j, i, "heart", false));
           hearts[heart_counter] = world_objects.get(index);
+          map[j][i] = new Heart(j, i, "heart", false);
           heart_counter++;
           index++;
         } else if (character == '0') {
           world_objects.add(new Score(j, i, false));
           numbers[number_counter] = world_objects.get(index);
+          map[j][i] = new Score(j, i, false);
           number_counter++;
           index++;
         } else if (character == '_') {
           world_objects.add(new Path(j, i, true));
+          map[j][i] = new Path(j, i, true);
           index++;
         } else if (character == '1') {
           corner_up_left_x = j;
           corner_up_left_y = i;
+          map[j][i] = new Path(j, i, true);
           //index++;
         } else if (character == '2') {
           corner_up_right_x = j;
           corner_up_right_y = i;
+          map[j][i] = new Path(j, i, true);
           //index++;
-        } else if (character == '5') {
+        } else if (character == '3') {
           corner_down_left_x = j;
           corner_down_left_y = i;
+          map[j][i] = new Path(j, i, true);
           //index++;
         } else if (character == '4') {
           corner_down_right_x = j;
           corner_down_right_y = i;
+          map[j][i] = new Path(j, i, true);
           //index++;
         }
       }
     }
+  }
+  
+  WorldObject getWorldObject(float grid_x, float grid_y)
+  {
+    int point_x = (int)grid_x;
+    int point_y = (int)grid_y;
+    return map[point_x][point_y];
   }
 
   boolean isWall(int x, int y) {

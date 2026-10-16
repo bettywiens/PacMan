@@ -49,6 +49,8 @@ class EnemyPink extends Enemy {
     checkCollisionEnemy(move_x, move_y);
     println("LAST direction || " + last_direction);
     println("BEFORE direction || " + before_direction);
+    println("LAST X WALL || " + last_x_wall);
+    println("LAST Y WALL || " + last_y_wall);
     setImage();
   }
 }

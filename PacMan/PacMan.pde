@@ -1,7 +1,19 @@
 import java.util.Arrays;
 
+int SCALE = 3;
+int TILE_SIZE = 16 * SCALE;
+float PLAYER_SPEED = 0.7f * SCALE;
+float ENEMY_SPEED = 0.6f * SCALE;
+float ANIMATION_SPEED = 0.1f;
+float ANIMATION_WON_SPEED = 0.05f;
+float ANIMATION_STANDING_SPEED = 0.025f;
+
+ArrayList<WorldObject> world_objects;
+ArrayList<WorldObject> walls;
+ArrayList<WorldObject> coins;
 WorldObject[] hearts;
 WorldObject[] numbers;
+
 float player_x;
 float player_y;
 float corner_up_right_x;
@@ -12,38 +24,29 @@ float corner_down_right_x;
 float corner_down_right_y;
 float corner_down_left_x;
 float corner_down_left_y;
-int SCALE = 3;
-int TILE_SIZE = 16 * SCALE;
-float PLAYER_SPEED = 0.7f * SCALE;
-float ENEMY_SPEED = 0.6f * SCALE;
-float ANIMATION_SPEED = 0.1f;
-float ANIMATION_WON_SPEED = 0.05f;
-float ANIMATION_STANDING_SPEED = 0.025f;
-Timer timer;
-Timer scatter_timer;
+
 int window_width;
 int window_height;
+
 int lives = 3;
 int score = 0;
 int amount_coins = 0;
 int scatter_timer_counter = 0;
-
-PImage background;
-PImage game_over;
 
 boolean game_lost = false;
 boolean game_won = false;
 boolean player_dead = false;
 boolean player_won = false;
 boolean scatter_active = false;
+
+PImage background;
+PImage game_over;
+
+Timer timer;
+Timer scatter_timer;
 EndScreen end;
-
-
 MapLoader map_loader;
 KeyHandler key_handler;
-ArrayList<WorldObject> world_objects;
-ArrayList<WorldObject> walls;
-ArrayList<WorldObject> coins;
 
 void setup() {
   size(480, 600);
@@ -65,9 +68,7 @@ void setup() {
   end = new EndScreen();
 }
 
-void draw() {
-  //println(player_x);
-  //println(player_y);
+void draw() {  
   if (!game_lost && !game_won) {
     background(187, 212, 121);
     for (int i = 0; i < world_objects.size(); i++) {
@@ -81,7 +82,8 @@ void draw() {
         creature.update();
       }
       
-     //scattermode gets actived every 20 seconds and last 20 seconds(for now);
+     // Scattermode wird 20 Sekunden aktiviert und hält 20 Sekunden an (temporär);
+     // Eigenen Zeit für scattermode an sich machen
       //if (scatter_timer.isFinished()) {
       //  scatter_active = true;
       //  //println("scatter is active.");
@@ -91,8 +93,7 @@ void draw() {
       //    scatter_active = false;
       //    //println("scatter is inactive.");
       //    scatter_timer_counter = 0;
-      //  }
-      
+      //  }     
       //}
     }
   } else {
