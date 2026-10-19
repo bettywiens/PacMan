@@ -11,7 +11,7 @@ class MapLoader
 
   MapLoader(ArrayList<WorldObject> world_objects) 
   {
-    lines = loadStrings("data/map/pacman_small.txt");
+    lines = loadStrings("data/map/map2.txt");
 
     // 2D-Array für map erstellen:
     tiles = new char[lines.length][];

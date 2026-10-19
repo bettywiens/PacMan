@@ -220,6 +220,14 @@ class Enemy extends Creature
               {
                 goDown();
               }
+            } else if (before_direction == CreatureDirections.DOWN)
+            {
+              
+              before_direction = CreatureDirections.LEFT;
+              if (last_y_wall == CreatureDirections.DOWN)
+              {
+                goUp();
+              }
             } else
             {
               before_direction = CreatureDirections.LEFT;
@@ -253,22 +261,64 @@ class Enemy extends Creature
 
           if (last_direction == CreatureDirections.DOWN)
           {
-            before_direction = CreatureDirections.DOWN;
+
+            //if (before_direction == CreatureDirections.DOWN)
+            //{
+            //  before_direction = CreatureDirections.DOWN;
+            //  if (last_x_wall == CreatureDirections.LEFT)
+            //  {
+            //    goUp();
+            //  }
+            //} else
+            //{
+            //before_direction = CreatureDirections.DOWN;
             if (last_x_wall == CreatureDirections.LEFT)
             {
-              goRight();
+              if (last_y_wall == CreatureDirections.DOWN && before_direction == CreatureDirections.LEFT)
+              {
+                goUp();
+              } else
+              {
+                goRight();
+              }
             } else if (last_x_wall == CreatureDirections.RIGHT)
             {
-              goLeft();
+              if (last_y_wall == CreatureDirections.DOWN && before_direction == CreatureDirections.RIGHT)
+              {
+                goUp();
+              } else
+              {
+                goLeft();
+              }
             }
+            //}
           } else if (last_direction == CreatureDirections.RIGHT)
           {
             if (before_direction == CreatureDirections.RIGHT)
             {
               before_direction = CreatureDirections.RIGHT;
               goUp();
+            } else if (before_direction == CreatureDirections.DOWN)
+            {
+              if (last_x_wall == CreatureDirections.RIGHT)
+              {
+                goUp();
+              }
             }
-          } else
+          } else if (last_direction == CreatureDirections.LEFT)          
+          {
+            if (before_direction == CreatureDirections.DOWN)
+            {
+              if (last_x_wall == CreatureDirections.RIGHT)
+              {
+                goUp();
+              }
+            }
+          } else if (last_direction == CreatureDirections.DOWN)
+          {
+            
+          }
+          else
           {
             before_direction = last_direction;
           }
@@ -418,22 +468,23 @@ class Enemy extends Creature
   }
 
   // Sucht nach Ziel auf der x-Achse
-  void searchX(float person_x, boolean seeing) 
+  void searchX(float person_x, boolean seeing)
   {
-    if (!on_same_level_x) 
+    //println("------SEARCHING X------");
+    if (!on_same_level_x)
     {
       // Gegner ist links vom Ziel --> muss nach rechts
-      if (position_x < person_x) 
+      if (position_x < person_x)
       {
         changeDirection(CreatureDirections.RIGHT);
         last_direction = CreatureDirections.RIGHT;
         // Gegner ist rechts vom Ziel --> muss nach links
-      } else if (position_x > person_x) 
+      } else if (position_x > person_x)
       {
         changeDirection(CreatureDirections.LEFT);
         last_direction = CreatureDirections.LEFT;
         // Gegner ist entweder direkt über oder direkt unter Ziel
-      } else if (position_x == person_x) 
+      } else if (position_x == person_x)
       {
         // Gegner kann entweder durch Wände sehen oder nicht
         if (seeing) {
@@ -446,25 +497,26 @@ class Enemy extends Creature
   }
 
   // Sucht nach Ziel auf der y-Achse
-  void searchY(float person_y, boolean seeing) 
+  void searchY(float person_y, boolean seeing)
   {
-    if (!on_same_level_y) 
+    //println("------SEARCHING Y------");
+    if (!on_same_level_y)
     {
       // Gegner ist über dem Ziel --> muss nach unten
-      if (position_y < person_y) 
+      if (position_y < person_y)
       {
         changeDirection(CreatureDirections.DOWN);
         last_direction = CreatureDirections.DOWN;
         // Gegner ist unter dem Ziel --> muss nach oben
-      } else if (position_y > person_y) 
+      } else if (position_y > person_y)
       {
         changeDirection(CreatureDirections.UP);
         last_direction = CreatureDirections.UP;
         // Gegner ist entweder direkt links oder rechts vom Ziel
-      } else if (position_y == person_y) 
+      } else if (position_y == person_y)
       {
         // Gegner kann entweder durch Wände sehen oder nicht
-        if (seeing) 
+        if (seeing)
         {
           on_same_level_x = false;
           on_same_level_y = true;
@@ -475,7 +527,7 @@ class Enemy extends Creature
   }
 
   // Wählt eine zufällige Richtung aus
-  void randomDirection() 
+  void randomDirection()
   {
     int direction_number = round(random(0, 3));
     CreatureDirections random_direction = CreatureDirections.values()[direction_number];
@@ -483,7 +535,7 @@ class Enemy extends Creature
     last_direction = random_direction;
   }
 
-  void goLeft() 
+  void goLeft()
   {
     //println("LEFT");
     changeDirection(CreatureDirections.LEFT);
@@ -493,7 +545,7 @@ class Enemy extends Creature
     return;
   }
 
-  void goRight() 
+  void goRight()
   {
     //println("RIGHT");
     changeDirection(CreatureDirections.RIGHT);
@@ -503,7 +555,7 @@ class Enemy extends Creature
     return;
   }
 
-  void goUp() 
+  void goUp()
   {
     //println("UP");
     changeDirection(CreatureDirections.UP);
@@ -513,7 +565,7 @@ class Enemy extends Creature
     return;
   }
 
-  void goDown() 
+  void goDown()
   {
     //println("DOWN");
     changeDirection(CreatureDirections.DOWN);
@@ -524,24 +576,24 @@ class Enemy extends Creature
   }
 
   // Setzt das Bild abhängig von der Richtung und Scattermode:
-  void setImage() 
+  void setImage()
   {
     current = last_direction;
-    if (current.equals(CreatureDirections.RIGHT)) 
+    if (current.equals(CreatureDirections.RIGHT))
     {
-      if (scatter_active) 
+      if (scatter_active)
       {
         setImageContainer(scatter_right);
-      } else 
+      } else
       {
         setImageContainer(image_right);
       }
-    } else if (current.equals(CreatureDirections.LEFT)) 
+    } else if (current.equals(CreatureDirections.LEFT))
     {
-      if (scatter_active) 
+      if (scatter_active)
       {
         setImageContainer(scatter_left);
-      } else 
+      } else
       {
         setImageContainer(image_left);
       }
@@ -549,44 +601,44 @@ class Enemy extends Creature
   }
 
   // Sucht nach Spieler
-  void chooseDirection(boolean seeing, float corner_x, float corner_y) 
+  void chooseDirection(boolean seeing, float corner_x, float corner_y)
   {
-    if (!scatter_active) 
+    if (!scatter_active)
     {
-      if (!colliding) 
+      if (!colliding)
       {
         in_place = false;
         searchX(player_x, seeing); // Sucht nach X Position vom Ziel
         searchY(player_y, seeing); // Sucht nach Y Position vom Ziel
-      } else 
+      } else
       {
         return;
       }
-    } else 
+    } else
     {
       if (!colliding) // && !in_place
-      { 
+      {
         // Geht im Scattermode nach oben rechts
         //checkIfInCorner(grid_x, grid_y, corner_x, corner_y);
         searchX(corner_x, seeing);
         searchY(corner_y, seeing);
-      } else 
+      } else
       {
         return;
       }
     }
   }
 
-  void checkIfInCorner(float player_x, float player_y, float corner_x, float corner_y) 
+  void checkIfInCorner(float player_x, float player_y, float corner_x, float corner_y)
   {
-    if (player_x == corner_x && player_y == corner_y) 
+    if (player_x == corner_x && player_y == corner_y)
     {
       in_place = true;
     }
   }
 
   // Sagt auf welchem Tile wird uns befinden:
-  void getPosition() 
+  void getPosition()
   {
     position_x = grid_x - (grid_x % 1);
     position_y = grid_y - (grid_y % 1);
